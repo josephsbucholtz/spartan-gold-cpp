@@ -23,4 +23,19 @@ namespace utils
         return "";
     }
 
+    bool verifySignature(std::string pubKey, std::string msg, std::string sig)
+    {
+        return false;
+    }
+
+    std::string calcAddress(std::string key)
+    {
+        return std::string();
+    }
+
+    bool addressMatchesKey(std::string addr, std::string pubKey)
+    {
+        return false;
+    }
+
 } // namespace utils
