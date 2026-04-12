@@ -41,14 +41,14 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "spartan_gold_app::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-spartan_gold_app-Debug-3eaad80dcc85df683129.json",
+					"jsonFile" : "target-spartan_gold_app-Debug-78a47ecde4b54c4e64b2.json",
 					"name" : "spartan_gold_app",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "spartan_gold_lib::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-spartan_gold_lib-Debug-8704ac83c7ad1fefb4d9.json",
+					"jsonFile" : "target-spartan_gold_lib-Debug-8e33f63844de9d33d81e.json",
 					"name" : "spartan_gold_lib",
 					"projectIndex" : 0
 				}

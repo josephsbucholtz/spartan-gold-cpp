@@ -142,78 +142,6 @@ spartan_gold_app/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/spartan_gold_app.dir/build.make CMakeFiles/spartan_gold_app.dir/build
 .PHONY : spartan_gold_app/fast
 
-src/block.o: src/block.cpp.o
-.PHONY : src/block.o
-
-# target to build an object file
-src/block.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/spartan_gold_lib.dir/build.make CMakeFiles/spartan_gold_lib.dir/src/block.cpp.o
-.PHONY : src/block.cpp.o
-
-src/block.i: src/block.cpp.i
-.PHONY : src/block.i
-
-# target to preprocess a source file
-src/block.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/spartan_gold_lib.dir/build.make CMakeFiles/spartan_gold_lib.dir/src/block.cpp.i
-.PHONY : src/block.cpp.i
-
-src/block.s: src/block.cpp.s
-.PHONY : src/block.s
-
-# target to generate assembly for a file
-src/block.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/spartan_gold_lib.dir/build.make CMakeFiles/spartan_gold_lib.dir/src/block.cpp.s
-.PHONY : src/block.cpp.s
-
-src/blockchain.o: src/blockchain.cpp.o
-.PHONY : src/blockchain.o
-
-# target to build an object file
-src/blockchain.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/spartan_gold_lib.dir/build.make CMakeFiles/spartan_gold_lib.dir/src/blockchain.cpp.o
-.PHONY : src/blockchain.cpp.o
-
-src/blockchain.i: src/blockchain.cpp.i
-.PHONY : src/blockchain.i
-
-# target to preprocess a source file
-src/blockchain.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/spartan_gold_lib.dir/build.make CMakeFiles/spartan_gold_lib.dir/src/blockchain.cpp.i
-.PHONY : src/blockchain.cpp.i
-
-src/blockchain.s: src/blockchain.cpp.s
-.PHONY : src/blockchain.s
-
-# target to generate assembly for a file
-src/blockchain.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/spartan_gold_lib.dir/build.make CMakeFiles/spartan_gold_lib.dir/src/blockchain.cpp.s
-.PHONY : src/blockchain.cpp.s
-
-src/client.o: src/client.cpp.o
-.PHONY : src/client.o
-
-# target to build an object file
-src/client.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/spartan_gold_lib.dir/build.make CMakeFiles/spartan_gold_lib.dir/src/client.cpp.o
-.PHONY : src/client.cpp.o
-
-src/client.i: src/client.cpp.i
-.PHONY : src/client.i
-
-# target to preprocess a source file
-src/client.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/spartan_gold_lib.dir/build.make CMakeFiles/spartan_gold_lib.dir/src/client.cpp.i
-.PHONY : src/client.cpp.i
-
-src/client.s: src/client.cpp.s
-.PHONY : src/client.s
-
-# target to generate assembly for a file
-src/client.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/spartan_gold_lib.dir/build.make CMakeFiles/spartan_gold_lib.dir/src/client.cpp.s
-.PHONY : src/client.cpp.s
-
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -237,54 +165,6 @@ src/main.s: src/main.cpp.s
 src/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/spartan_gold_app.dir/build.make CMakeFiles/spartan_gold_app.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
-
-src/miner.o: src/miner.cpp.o
-.PHONY : src/miner.o
-
-# target to build an object file
-src/miner.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/spartan_gold_lib.dir/build.make CMakeFiles/spartan_gold_lib.dir/src/miner.cpp.o
-.PHONY : src/miner.cpp.o
-
-src/miner.i: src/miner.cpp.i
-.PHONY : src/miner.i
-
-# target to preprocess a source file
-src/miner.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/spartan_gold_lib.dir/build.make CMakeFiles/spartan_gold_lib.dir/src/miner.cpp.i
-.PHONY : src/miner.cpp.i
-
-src/miner.s: src/miner.cpp.s
-.PHONY : src/miner.s
-
-# target to generate assembly for a file
-src/miner.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/spartan_gold_lib.dir/build.make CMakeFiles/spartan_gold_lib.dir/src/miner.cpp.s
-.PHONY : src/miner.cpp.s
-
-src/network.o: src/network.cpp.o
-.PHONY : src/network.o
-
-# target to build an object file
-src/network.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/spartan_gold_lib.dir/build.make CMakeFiles/spartan_gold_lib.dir/src/network.cpp.o
-.PHONY : src/network.cpp.o
-
-src/network.i: src/network.cpp.i
-.PHONY : src/network.i
-
-# target to preprocess a source file
-src/network.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/spartan_gold_lib.dir/build.make CMakeFiles/spartan_gold_lib.dir/src/network.cpp.i
-.PHONY : src/network.cpp.i
-
-src/network.s: src/network.cpp.s
-.PHONY : src/network.s
-
-# target to generate assembly for a file
-src/network.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/spartan_gold_lib.dir/build.make CMakeFiles/spartan_gold_lib.dir/src/network.cpp.s
-.PHONY : src/network.cpp.s
 
 src/transaction.o: src/transaction.cpp.o
 .PHONY : src/transaction.o
@@ -344,24 +224,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... spartan_gold_app"
 	@echo "... spartan_gold_lib"
-	@echo "... src/block.o"
-	@echo "... src/block.i"
-	@echo "... src/block.s"
-	@echo "... src/blockchain.o"
-	@echo "... src/blockchain.i"
-	@echo "... src/blockchain.s"
-	@echo "... src/client.o"
-	@echo "... src/client.i"
-	@echo "... src/client.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
-	@echo "... src/miner.o"
-	@echo "... src/miner.i"
-	@echo "... src/miner.s"
-	@echo "... src/network.o"
-	@echo "... src/network.i"
-	@echo "... src/network.s"
 	@echo "... src/transaction.o"
 	@echo "... src/transaction.i"
 	@echo "... src/transaction.s"

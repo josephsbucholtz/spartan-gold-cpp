@@ -69,24 +69,10 @@ include CMakeFiles/spartan_gold_lib.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/spartan_gold_lib.dir/flags.make
 
-CMakeFiles/spartan_gold_lib.dir/src/utils.cpp.o: CMakeFiles/spartan_gold_lib.dir/flags.make
-CMakeFiles/spartan_gold_lib.dir/src/utils.cpp.o: /home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/src/utils.cpp
-CMakeFiles/spartan_gold_lib.dir/src/utils.cpp.o: CMakeFiles/spartan_gold_lib.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/spartan_gold_lib.dir/src/utils.cpp.o"
-	/home/linuxbrew/.linuxbrew/bin/g++-15 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/spartan_gold_lib.dir/src/utils.cpp.o -MF CMakeFiles/spartan_gold_lib.dir/src/utils.cpp.o.d -o CMakeFiles/spartan_gold_lib.dir/src/utils.cpp.o -c /home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/src/utils.cpp
-
-CMakeFiles/spartan_gold_lib.dir/src/utils.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/spartan_gold_lib.dir/src/utils.cpp.i"
-	/home/linuxbrew/.linuxbrew/bin/g++-15 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/src/utils.cpp > CMakeFiles/spartan_gold_lib.dir/src/utils.cpp.i
-
-CMakeFiles/spartan_gold_lib.dir/src/utils.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/spartan_gold_lib.dir/src/utils.cpp.s"
-	/home/linuxbrew/.linuxbrew/bin/g++-15 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/src/utils.cpp -o CMakeFiles/spartan_gold_lib.dir/src/utils.cpp.s
-
 CMakeFiles/spartan_gold_lib.dir/src/transaction.cpp.o: CMakeFiles/spartan_gold_lib.dir/flags.make
 CMakeFiles/spartan_gold_lib.dir/src/transaction.cpp.o: /home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/src/transaction.cpp
 CMakeFiles/spartan_gold_lib.dir/src/transaction.cpp.o: CMakeFiles/spartan_gold_lib.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/spartan_gold_lib.dir/src/transaction.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/spartan_gold_lib.dir/src/transaction.cpp.o"
 	/home/linuxbrew/.linuxbrew/bin/g++-15 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/spartan_gold_lib.dir/src/transaction.cpp.o -MF CMakeFiles/spartan_gold_lib.dir/src/transaction.cpp.o.d -o CMakeFiles/spartan_gold_lib.dir/src/transaction.cpp.o -c /home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/src/transaction.cpp
 
 CMakeFiles/spartan_gold_lib.dir/src/transaction.cpp.i: cmake_force
@@ -97,99 +83,33 @@ CMakeFiles/spartan_gold_lib.dir/src/transaction.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/spartan_gold_lib.dir/src/transaction.cpp.s"
 	/home/linuxbrew/.linuxbrew/bin/g++-15 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/src/transaction.cpp -o CMakeFiles/spartan_gold_lib.dir/src/transaction.cpp.s
 
-CMakeFiles/spartan_gold_lib.dir/src/block.cpp.o: CMakeFiles/spartan_gold_lib.dir/flags.make
-CMakeFiles/spartan_gold_lib.dir/src/block.cpp.o: /home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/src/block.cpp
-CMakeFiles/spartan_gold_lib.dir/src/block.cpp.o: CMakeFiles/spartan_gold_lib.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/spartan_gold_lib.dir/src/block.cpp.o"
-	/home/linuxbrew/.linuxbrew/bin/g++-15 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/spartan_gold_lib.dir/src/block.cpp.o -MF CMakeFiles/spartan_gold_lib.dir/src/block.cpp.o.d -o CMakeFiles/spartan_gold_lib.dir/src/block.cpp.o -c /home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/src/block.cpp
+CMakeFiles/spartan_gold_lib.dir/src/utils.cpp.o: CMakeFiles/spartan_gold_lib.dir/flags.make
+CMakeFiles/spartan_gold_lib.dir/src/utils.cpp.o: /home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/src/utils.cpp
+CMakeFiles/spartan_gold_lib.dir/src/utils.cpp.o: CMakeFiles/spartan_gold_lib.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/spartan_gold_lib.dir/src/utils.cpp.o"
+	/home/linuxbrew/.linuxbrew/bin/g++-15 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/spartan_gold_lib.dir/src/utils.cpp.o -MF CMakeFiles/spartan_gold_lib.dir/src/utils.cpp.o.d -o CMakeFiles/spartan_gold_lib.dir/src/utils.cpp.o -c /home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/src/utils.cpp
 
-CMakeFiles/spartan_gold_lib.dir/src/block.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/spartan_gold_lib.dir/src/block.cpp.i"
-	/home/linuxbrew/.linuxbrew/bin/g++-15 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/src/block.cpp > CMakeFiles/spartan_gold_lib.dir/src/block.cpp.i
+CMakeFiles/spartan_gold_lib.dir/src/utils.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/spartan_gold_lib.dir/src/utils.cpp.i"
+	/home/linuxbrew/.linuxbrew/bin/g++-15 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/src/utils.cpp > CMakeFiles/spartan_gold_lib.dir/src/utils.cpp.i
 
-CMakeFiles/spartan_gold_lib.dir/src/block.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/spartan_gold_lib.dir/src/block.cpp.s"
-	/home/linuxbrew/.linuxbrew/bin/g++-15 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/src/block.cpp -o CMakeFiles/spartan_gold_lib.dir/src/block.cpp.s
-
-CMakeFiles/spartan_gold_lib.dir/src/client.cpp.o: CMakeFiles/spartan_gold_lib.dir/flags.make
-CMakeFiles/spartan_gold_lib.dir/src/client.cpp.o: /home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/src/client.cpp
-CMakeFiles/spartan_gold_lib.dir/src/client.cpp.o: CMakeFiles/spartan_gold_lib.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/spartan_gold_lib.dir/src/client.cpp.o"
-	/home/linuxbrew/.linuxbrew/bin/g++-15 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/spartan_gold_lib.dir/src/client.cpp.o -MF CMakeFiles/spartan_gold_lib.dir/src/client.cpp.o.d -o CMakeFiles/spartan_gold_lib.dir/src/client.cpp.o -c /home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/src/client.cpp
-
-CMakeFiles/spartan_gold_lib.dir/src/client.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/spartan_gold_lib.dir/src/client.cpp.i"
-	/home/linuxbrew/.linuxbrew/bin/g++-15 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/src/client.cpp > CMakeFiles/spartan_gold_lib.dir/src/client.cpp.i
-
-CMakeFiles/spartan_gold_lib.dir/src/client.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/spartan_gold_lib.dir/src/client.cpp.s"
-	/home/linuxbrew/.linuxbrew/bin/g++-15 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/src/client.cpp -o CMakeFiles/spartan_gold_lib.dir/src/client.cpp.s
-
-CMakeFiles/spartan_gold_lib.dir/src/network.cpp.o: CMakeFiles/spartan_gold_lib.dir/flags.make
-CMakeFiles/spartan_gold_lib.dir/src/network.cpp.o: /home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/src/network.cpp
-CMakeFiles/spartan_gold_lib.dir/src/network.cpp.o: CMakeFiles/spartan_gold_lib.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/spartan_gold_lib.dir/src/network.cpp.o"
-	/home/linuxbrew/.linuxbrew/bin/g++-15 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/spartan_gold_lib.dir/src/network.cpp.o -MF CMakeFiles/spartan_gold_lib.dir/src/network.cpp.o.d -o CMakeFiles/spartan_gold_lib.dir/src/network.cpp.o -c /home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/src/network.cpp
-
-CMakeFiles/spartan_gold_lib.dir/src/network.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/spartan_gold_lib.dir/src/network.cpp.i"
-	/home/linuxbrew/.linuxbrew/bin/g++-15 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/src/network.cpp > CMakeFiles/spartan_gold_lib.dir/src/network.cpp.i
-
-CMakeFiles/spartan_gold_lib.dir/src/network.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/spartan_gold_lib.dir/src/network.cpp.s"
-	/home/linuxbrew/.linuxbrew/bin/g++-15 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/src/network.cpp -o CMakeFiles/spartan_gold_lib.dir/src/network.cpp.s
-
-CMakeFiles/spartan_gold_lib.dir/src/miner.cpp.o: CMakeFiles/spartan_gold_lib.dir/flags.make
-CMakeFiles/spartan_gold_lib.dir/src/miner.cpp.o: /home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/src/miner.cpp
-CMakeFiles/spartan_gold_lib.dir/src/miner.cpp.o: CMakeFiles/spartan_gold_lib.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/spartan_gold_lib.dir/src/miner.cpp.o"
-	/home/linuxbrew/.linuxbrew/bin/g++-15 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/spartan_gold_lib.dir/src/miner.cpp.o -MF CMakeFiles/spartan_gold_lib.dir/src/miner.cpp.o.d -o CMakeFiles/spartan_gold_lib.dir/src/miner.cpp.o -c /home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/src/miner.cpp
-
-CMakeFiles/spartan_gold_lib.dir/src/miner.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/spartan_gold_lib.dir/src/miner.cpp.i"
-	/home/linuxbrew/.linuxbrew/bin/g++-15 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/src/miner.cpp > CMakeFiles/spartan_gold_lib.dir/src/miner.cpp.i
-
-CMakeFiles/spartan_gold_lib.dir/src/miner.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/spartan_gold_lib.dir/src/miner.cpp.s"
-	/home/linuxbrew/.linuxbrew/bin/g++-15 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/src/miner.cpp -o CMakeFiles/spartan_gold_lib.dir/src/miner.cpp.s
-
-CMakeFiles/spartan_gold_lib.dir/src/blockchain.cpp.o: CMakeFiles/spartan_gold_lib.dir/flags.make
-CMakeFiles/spartan_gold_lib.dir/src/blockchain.cpp.o: /home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/src/blockchain.cpp
-CMakeFiles/spartan_gold_lib.dir/src/blockchain.cpp.o: CMakeFiles/spartan_gold_lib.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/spartan_gold_lib.dir/src/blockchain.cpp.o"
-	/home/linuxbrew/.linuxbrew/bin/g++-15 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/spartan_gold_lib.dir/src/blockchain.cpp.o -MF CMakeFiles/spartan_gold_lib.dir/src/blockchain.cpp.o.d -o CMakeFiles/spartan_gold_lib.dir/src/blockchain.cpp.o -c /home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/src/blockchain.cpp
-
-CMakeFiles/spartan_gold_lib.dir/src/blockchain.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/spartan_gold_lib.dir/src/blockchain.cpp.i"
-	/home/linuxbrew/.linuxbrew/bin/g++-15 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/src/blockchain.cpp > CMakeFiles/spartan_gold_lib.dir/src/blockchain.cpp.i
-
-CMakeFiles/spartan_gold_lib.dir/src/blockchain.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/spartan_gold_lib.dir/src/blockchain.cpp.s"
-	/home/linuxbrew/.linuxbrew/bin/g++-15 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/src/blockchain.cpp -o CMakeFiles/spartan_gold_lib.dir/src/blockchain.cpp.s
+CMakeFiles/spartan_gold_lib.dir/src/utils.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/spartan_gold_lib.dir/src/utils.cpp.s"
+	/home/linuxbrew/.linuxbrew/bin/g++-15 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/src/utils.cpp -o CMakeFiles/spartan_gold_lib.dir/src/utils.cpp.s
 
 # Object files for target spartan_gold_lib
 spartan_gold_lib_OBJECTS = \
-"CMakeFiles/spartan_gold_lib.dir/src/utils.cpp.o" \
 "CMakeFiles/spartan_gold_lib.dir/src/transaction.cpp.o" \
-"CMakeFiles/spartan_gold_lib.dir/src/block.cpp.o" \
-"CMakeFiles/spartan_gold_lib.dir/src/client.cpp.o" \
-"CMakeFiles/spartan_gold_lib.dir/src/network.cpp.o" \
-"CMakeFiles/spartan_gold_lib.dir/src/miner.cpp.o" \
-"CMakeFiles/spartan_gold_lib.dir/src/blockchain.cpp.o"
+"CMakeFiles/spartan_gold_lib.dir/src/utils.cpp.o"
 
 # External object files for target spartan_gold_lib
 spartan_gold_lib_EXTERNAL_OBJECTS =
 
-libspartan_gold_lib.a: CMakeFiles/spartan_gold_lib.dir/src/utils.cpp.o
 libspartan_gold_lib.a: CMakeFiles/spartan_gold_lib.dir/src/transaction.cpp.o
-libspartan_gold_lib.a: CMakeFiles/spartan_gold_lib.dir/src/block.cpp.o
-libspartan_gold_lib.a: CMakeFiles/spartan_gold_lib.dir/src/client.cpp.o
-libspartan_gold_lib.a: CMakeFiles/spartan_gold_lib.dir/src/network.cpp.o
-libspartan_gold_lib.a: CMakeFiles/spartan_gold_lib.dir/src/miner.cpp.o
-libspartan_gold_lib.a: CMakeFiles/spartan_gold_lib.dir/src/blockchain.cpp.o
+libspartan_gold_lib.a: CMakeFiles/spartan_gold_lib.dir/src/utils.cpp.o
 libspartan_gold_lib.a: CMakeFiles/spartan_gold_lib.dir/build.make
 libspartan_gold_lib.a: CMakeFiles/spartan_gold_lib.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX static library libspartan_gold_lib.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX static library libspartan_gold_lib.a"
 	$(CMAKE_COMMAND) -P CMakeFiles/spartan_gold_lib.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/spartan_gold_lib.dir/link.txt --verbose=$(VERBOSE)
 

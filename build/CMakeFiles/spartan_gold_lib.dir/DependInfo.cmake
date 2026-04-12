@@ -8,11 +8,6 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/src/block.cpp" "CMakeFiles/spartan_gold_lib.dir/src/block.cpp.o" "gcc" "CMakeFiles/spartan_gold_lib.dir/src/block.cpp.o.d"
-  "/home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/src/blockchain.cpp" "CMakeFiles/spartan_gold_lib.dir/src/blockchain.cpp.o" "gcc" "CMakeFiles/spartan_gold_lib.dir/src/blockchain.cpp.o.d"
-  "/home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/src/client.cpp" "CMakeFiles/spartan_gold_lib.dir/src/client.cpp.o" "gcc" "CMakeFiles/spartan_gold_lib.dir/src/client.cpp.o.d"
-  "/home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/src/miner.cpp" "CMakeFiles/spartan_gold_lib.dir/src/miner.cpp.o" "gcc" "CMakeFiles/spartan_gold_lib.dir/src/miner.cpp.o.d"
-  "/home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/src/network.cpp" "CMakeFiles/spartan_gold_lib.dir/src/network.cpp.o" "gcc" "CMakeFiles/spartan_gold_lib.dir/src/network.cpp.o.d"
   "/home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/src/transaction.cpp" "CMakeFiles/spartan_gold_lib.dir/src/transaction.cpp.o" "gcc" "CMakeFiles/spartan_gold_lib.dir/src/transaction.cpp.o.d"
   "/home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/src/utils.cpp" "CMakeFiles/spartan_gold_lib.dir/src/utils.cpp.o" "gcc" "CMakeFiles/spartan_gold_lib.dir/src/utils.cpp.o.d"
   )
