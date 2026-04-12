@@ -1,0 +1,69 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "SpartanGoldcpp",
+					"targetIndexes" : 
+					[
+						0,
+						1
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "spartan_gold_app::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-spartan_gold_app-Debug-3eaad80dcc85df683129.json",
+					"name" : "spartan_gold_app",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "spartan_gold_lib::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-spartan_gold_lib-Debug-8704ac83c7ad1fefb4d9.json",
+					"name" : "spartan_gold_lib",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/build",
+		"source" : "/home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 6
+	}
+}

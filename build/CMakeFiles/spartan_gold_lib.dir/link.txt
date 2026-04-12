@@ -1,0 +1,2 @@
+/usr/bin/ar qc libspartan_gold_lib.a CMakeFiles/spartan_gold_lib.dir/src/utils.cpp.o CMakeFiles/spartan_gold_lib.dir/src/transaction.cpp.o CMakeFiles/spartan_gold_lib.dir/src/block.cpp.o CMakeFiles/spartan_gold_lib.dir/src/client.cpp.o CMakeFiles/spartan_gold_lib.dir/src/network.cpp.o CMakeFiles/spartan_gold_lib.dir/src/miner.cpp.o CMakeFiles/spartan_gold_lib.dir/src/blockchain.cpp.o
+/usr/bin/ranlib libspartan_gold_lib.a
