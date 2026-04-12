@@ -7,18 +7,23 @@
 
 class Network
 {
-    public:
-        void register_clients(std::vector<Client> clientList);
-        
-        //Needs object : figure it out
-        void broadcast(std::string msg); //need o
-        void sendMessage(std::string addr, std::string msg); //need o
+public:
+    // Constructors
+    Network();
+    Network(double chanceMessageFails,
+            int messageDelayMax);
 
-        bool recognizes(Client client);
+    // methods
+    void register_clients(std::vector<Client> clientList);
 
-    private:
-        std::unordered_map<std::string, std::shared_ptr<Client>> clients_;
-        double chanceMessageFails_ = 0.0;
-        int messageDelayMax_ = 0;
+    // Needs object : figure it out
+    void broadcast(std::string msg);                     // need o
+    void sendMessage(std::string addr, std::string msg); // need o
 
+    bool recognizes(Client client);
+
+private:
+    std::unordered_map<std::string, std::shared_ptr<Client>> clients_;
+    double chanceMessageFails_ = 0.0;
+    int messageDelayMax_ = 0;
 };
