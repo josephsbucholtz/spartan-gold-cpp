@@ -1,4 +1,9 @@
+
 #include "utils.h"
+#include <openssl/evp.h>
+#include <openssl/pem.h>
+#include <openssl/rsa.h>
+#include <openssl/sha.h>
 
 namespace utils
 {
@@ -8,12 +13,12 @@ namespace utils
         return "";
     }
 
-    // std::pair<std::string, std::string> utils::generateKeyPairFromMnemonic(const std::string &mnemonic, const std::string &password)
+    // RSAKeyPair utils::generateKeyPairFromMnemonic(const std::string &mnemonic, const std::string &password)
     // {
     //     return {};
     // }
 
-    std::pair<std::string, std::string> generateKeypair()
+    RSAKeyPair generateKeyPair()
     {
         return {};
     }
@@ -30,12 +35,12 @@ namespace utils
 
     std::string calcAddress(std::string key)
     {
-        return std::string();
+        return hash(key);
     }
 
     bool addressMatchesKey(std::string addr, std::string pubKey)
     {
-        return false;
+        return addr == calcAddress(pubKey);
     }
 
 } // namespace utils

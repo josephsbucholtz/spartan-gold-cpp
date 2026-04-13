@@ -9,26 +9,35 @@ class Transaction
 {
 public:
     //Constructors
-    Transaction();
     Transaction(const std::string& from,
-                uint64_t nonce,
+                int nonce,
                 const std::string& pubKey,
-                uint64_t fee,
-                const std::vector<int>& outputs);
+                int fee,
+                const std::vector<int>& outputs
+            );
 
+    Transaction(const std::string& from,
+                int nonce,
+                const std::string& pubKey,
+                int fee,
+                const std::vector<int>& outputs,
+                const std::string& data 
+            );
                 
     // methods
-    Transaction id();
+    void id();
+    std::string getId() const;
     void sign(std::string privKey);
     bool validSignature();
     uint64_t totalOutput();
 
 private:
+    std::string id_;
     std::string from_ = "";
-    uint64_t nonce_ = 0;
+    int nonce_ = 0;
     std::string pubKey_ = "";
     std::string sig_ = "";
-    uint64_t fee_ = 0;
+    int fee_ = 0;
     std::vector<int> outputs_ {};
-    // add data field when we know what it is
+    std::string data_ = "";
 };

@@ -2,24 +2,36 @@
 #include "transaction.h"
 #include "utils.h"
 
-Transaction::Transaction()
-{
-}
+#define TX_CONST "TX"
 
-Transaction::Transaction(const std::string& from,
-                         uint64_t nonce,
-                         const std::string& pubKey,
-                         uint64_t fee,
-                         const std::vector<int>& outputs)
+Transaction::Transaction(const std::string &from,
+                         int nonce,
+                         const std::string &pubKey,
+                         int fee,
+                         const std::vector<int> &outputs)
     : from_(from), nonce_(nonce), pubKey_(pubKey), fee_(fee), outputs_(outputs)
 {
 }
 
-Transaction Transaction::id()
+Transaction::Transaction(const std::string &from,
+                         int nonce,
+                         const std::string &pubKey,
+                         int fee,
+                         const std::vector<int> &outputs,
+                         const std::string &data)
+    : from_(from), nonce_(nonce), pubKey_(pubKey), fee_(fee), outputs_(outputs), data_(data)
 {
-    return Transaction();
 }
 
+void Transaction::id() 
+{
+    id_ = utils::hash(TX_CONST + from_ + std::to_string(nonce_) + pubKey_ + std::to_string(fee_) + data_);
+}
+
+std::string Transaction::getId() const
+{
+    return id_;
+}
 
 void Transaction::sign(std::string privKey)
 {
@@ -28,15 +40,16 @@ void Transaction::sign(std::string privKey)
 
 bool Transaction::validSignature()
 {
-    return sig_.empty() == false && 
-    utils::addressMatchesKey(from_, pubKey_) &&
-    utils::verifySignature(pubKey_, "", sig_);
+    return sig_.empty() == false &&
+           utils::addressMatchesKey(from_, pubKey_) &&
+           utils::verifySignature(pubKey_, "", sig_);
 }
 
 uint64_t Transaction::totalOutput()
 {
-    uint64_t total = fee_;
-    for (size_t i = 0; i < outputs_.size(); ++i) {
+    int total = fee_;
+    for (size_t i{}; i < outputs_.size(); ++i)
+    {
         total += outputs_[i];
     }
     return total;
