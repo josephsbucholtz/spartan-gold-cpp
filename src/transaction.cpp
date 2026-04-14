@@ -9,7 +9,7 @@ Transaction::Transaction(const std::string &from,
                          int nonce,
                          const std::string &pubKey,
                          int fee,
-                         const std::vector<int> &outputs)
+                         const std::vector<Output> &outputs)
     : from_(from), nonce_(nonce), pubKey_(pubKey), fee_(fee), outputs_(outputs)
 {
 }
@@ -18,7 +18,7 @@ Transaction::Transaction(const std::string &from,
                          int nonce,
                          const std::string &pubKey,
                          int fee,
-                         const std::vector<int> &outputs,
+                         const std::vector<Output> &outputs,
                          const std::string &data)
     : from_(from), nonce_(nonce), pubKey_(pubKey), fee_(fee), outputs_(outputs), data_(data)
 {
@@ -50,9 +50,13 @@ bool Transaction::sufficientFunds(Block block)
 uint64_t Transaction::totalOutput()
 {
     int total = fee_;
-    for (size_t i{}; i < outputs_.size(); ++i)
-    {
-        total += outputs_[i];
+    for (const auto& output : outputs_) {
+        total += output.amount;
     }
+
+    if (total < 0) {
+        throw std::runtime_error("Total output cannot be negative");
+    }
+
     return total;
 }

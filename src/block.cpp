@@ -54,18 +54,69 @@ bool Block::addTransaction(Transaction tx)
     {
         return false;
     }
+        
+    int nonce;
+    if (this->nextNonces_[tx.from_]) {
+        nonce = this->nextNonces_[tx.from_];
+    } else {
+        nonce = 0;
+    }
 
-    int nonce = this->nextNonces_[tx.from_];
+    if (tx.nonce_ < nonce) { return false; }
+    else if (tx.nonce_ > nonce) { return false; }
+    else {
+        this->nextNonces_[tx.from_] = nonce + 1;
+    }
+
+    this->transactions_.emplace(tx.id, tx);
+
+    int senderBalance = this->balanceOf(tx.from_);
+    this->balances_[tx.from_] = senderBalance - tx.totalOutput();
+    
+    for (const auto& output : tx.outputs_) {
+        this->balances_[output.address] += output.amount;
+    }
 
     return true;
 }
 
 bool Block::rerun(Block *prevBlock)
 {
-    return false;
+    this->balances_ = prevBlock->balances_;
+    this->nextNonces_ = prevBlock->nextNonces_;
+
+    int winnerBalance = this->balanceOf(prevBlock->rewardAddr_);
+    if (prevBlock->rewardAddr_ != "") this->balances_[prevBlock->rewardAddr_] = winnerBalance + prevBlock->totalRewards();
+
+    std::unordered_map<std::string, Transaction> txs = this->transactions_;
+    this->transactions_.clear();
+
+    for (const auto& pair : txs) {
+        if (!this->addTransaction(pair.second)) {
+            return false;
+        }
+    } 
+
+    return true;
 }
 
 uint64_t Block::balanceOf(std::string addr)
 {
-    return 0;
+    return this->balances_[addr] || 0 ;
+}
+
+uint64_t Block::totalRewards()
+{
+    uint64_t reward = coinbaseReward_;
+
+    for (const auto& [id, tx] : transactions_) {
+        reward += tx.fee_;
+    }
+
+    return reward;
+}
+
+bool Block::contains(Transaction tx)
+{
+    return this->transactions_.find(tx.id) != this->transactions_.end(); 
 }

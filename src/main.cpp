@@ -4,7 +4,7 @@
 #include "utils.h"
 
 int main() {
-    Transaction tx("Alice", 0, "Alice's public key", 10, {50, 30});
+    Transaction tx("Alice", 0, "Alice's public key", 10, {{20, "ffff"}, {40, "face"}});
     tx.getId();
 
     std::cout << "Total output: " << tx.totalOutput() << "\n";
