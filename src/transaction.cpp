@@ -1,5 +1,6 @@
 
 #include "transaction.h"
+#include "block.h"
 #include "utils.h"
 
 #define TX_CONST "TX"
@@ -23,26 +24,27 @@ Transaction::Transaction(const std::string &from,
 {
 }
 
-void Transaction::id() 
+void Transaction::getId() 
 {
-    id_ = utils::hash(TX_CONST + from_ + std::to_string(nonce_) + pubKey_ + std::to_string(fee_) + data_);
+    id = utils::hash(TX_CONST + from_ + std::to_string(nonce_) + pubKey_ + std::to_string(fee_) + data_);
 }
 
-std::string Transaction::getId() const
-{
-    return id_;
-}
 
 void Transaction::sign(std::string privKey)
 {
-    sig_ = utils::sign(privKey, "");
+    sig = utils::sign(privKey, "");
 }
 
 bool Transaction::validSignature()
 {
-    return sig_.empty() == false &&
+    return sig.empty() == false &&
            utils::addressMatchesKey(from_, pubKey_) &&
-           utils::verifySignature(pubKey_, "", sig_);
+           utils::verifySignature(pubKey_, "", sig);
+}
+
+bool Transaction::sufficientFunds(Block block)
+{
+    return this->totalOutput() <= block.balanceOf(from_);
 }
 
 uint64_t Transaction::totalOutput()

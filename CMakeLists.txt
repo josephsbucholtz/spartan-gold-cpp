@@ -10,6 +10,7 @@ find_package(OpenSSL REQUIRED)
 add_library(spartan_gold_lib
     src/transaction.cpp
     src/utils.cpp
+    src/block.cpp
 )
 
 target_include_directories(spartan_gold_lib

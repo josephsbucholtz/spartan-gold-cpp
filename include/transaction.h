@@ -4,10 +4,16 @@
 #include <vector>
 #include <cstdint>
 
+class Block;
 
 class Transaction
 {
 public:
+    std::string from_ = "";
+    std::string sig = "";
+    std::string id;
+    int nonce_ = 0;
+
     //Constructors
     Transaction(const std::string& from,
                 int nonce,
@@ -25,18 +31,14 @@ public:
             );
                 
     // methods
-    void id();
-    std::string getId() const;
+    void getId();
     void sign(std::string privKey);
     bool validSignature();
+    bool sufficientFunds(Block block);
     uint64_t totalOutput();
 
 private:
-    std::string id_;
-    std::string from_ = "";
-    int nonce_ = 0;
     std::string pubKey_ = "";
-    std::string sig_ = "";
     int fee_ = 0;
     std::vector<int> outputs_ {};
     std::string data_ = "";

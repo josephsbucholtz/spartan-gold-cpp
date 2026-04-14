@@ -5,10 +5,10 @@
 
 int main() {
     Transaction tx("Alice", 0, "Alice's public key", 10, {50, 30});
-    tx.id();
+    tx.getId();
 
     std::cout << "Total output: " << tx.totalOutput() << "\n";
-    std::cout << "id: " << tx.getId()  << "\n";
+    std::cout << "id: " << tx.id  << "\n";
 
     return 0;
 }
