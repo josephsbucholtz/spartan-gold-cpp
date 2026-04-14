@@ -26,7 +26,8 @@ Transaction::Transaction(const std::string &from,
 
 void Transaction::getId() 
 {
-    id = utils::hash(TX_CONST + from_ + std::to_string(nonce_) + pubKey_ + std::to_string(fee_) + data_);
+    id = utils::hash(TX_CONST + from_ + std::to_string(nonce_) + pubKey_ + 
+    std::to_string(fee_) + this->getData().value_or("") + std::to_string(totalOutput()));
 }
 
 
@@ -42,9 +43,9 @@ bool Transaction::validSignature()
            utils::verifySignature(pubKey_, "", sig);
 }
 
-bool Transaction::sufficientFunds(Block block)
+bool Transaction::sufficientFunds(Block &block)
 {
-    return this->totalOutput() <= block.balanceOf(from_);
+    return this->totalOutput() <= block.balanceOf(this->getFrom());
 }
 
 uint64_t Transaction::totalOutput()

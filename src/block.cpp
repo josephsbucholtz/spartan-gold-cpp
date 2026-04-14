@@ -46,7 +46,7 @@ bool Block::addTransaction(Transaction tx)
     {
         return false;
     }
-    if (tx.sig == "" || !tx.validSignature())
+    if (tx.getSig() == "" || !tx.validSignature())
     {
         return false;
     }
@@ -56,24 +56,24 @@ bool Block::addTransaction(Transaction tx)
     }
         
     int nonce;
-    if (this->nextNonces_[tx.from_]) {
-        nonce = this->nextNonces_[tx.from_];
+    if (this->nextNonces_[tx.getFrom()]) {
+        nonce = this->nextNonces_[tx.getFrom()];
     } else {
         nonce = 0;
     }
 
-    if (tx.nonce_ < nonce) { return false; }
-    else if (tx.nonce_ > nonce) { return false; }
+    if (tx.getNonce() < nonce) { return false; }
+    else if (tx.getNonce() > nonce) { return false; }
     else {
-        this->nextNonces_[tx.from_] = nonce + 1;
+        this->nextNonces_[tx.getFrom()] = nonce + 1;
     }
 
     this->transactions_.emplace(tx.id, tx);
 
-    int senderBalance = this->balanceOf(tx.from_);
-    this->balances_[tx.from_] = senderBalance - tx.totalOutput();
+    int senderBalance = this->balanceOf(tx.getFrom());
+    this->balances_[tx.getFrom()] = senderBalance - tx.totalOutput();
     
-    for (const auto& output : tx.outputs_) {
+    for (const auto& output : tx.getOutputs()) {
         this->balances_[output.address] += output.amount;
     }
 
@@ -110,7 +110,7 @@ uint64_t Block::totalRewards()
     uint64_t reward = coinbaseReward_;
 
     for (const auto& [id, tx] : transactions_) {
-        reward += tx.fee_;
+        reward += tx.getFee();
     }
 
     return reward;
