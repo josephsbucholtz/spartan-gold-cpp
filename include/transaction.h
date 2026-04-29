@@ -56,5 +56,5 @@ private:
     std::vector<Output> outputs_ {};
     int nonce_ = 0;
     std::string pubKey_ = "";
-    std::optional<std::string> data_ = "";
+    std::optional<std::string> data_ = std::nullopt;
 };

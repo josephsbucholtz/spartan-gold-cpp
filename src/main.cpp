@@ -5,5 +5,6 @@
 
 int main()
 {
+    std::cout << "WORKING!" << "\n";
     return 0;
 }

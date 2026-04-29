@@ -7,6 +7,15 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 find_package(OpenSSL REQUIRED)
 
+include(FetchContent)
+
+FetchContent_Declare(
+    nlohmann_json
+    URL https://github.com/nlohmann/json/releases/download/v3.11.3/json.tar.xz
+)
+
+FetchContent_MakeAvailable(nlohmann_json)
+
 add_library(spartan_gold_lib
     src/transaction.cpp
     src/utils.cpp
@@ -21,6 +30,7 @@ target_include_directories(spartan_gold_lib
 target_link_libraries(spartan_gold_lib
     PUBLIC
         OpenSSL::Crypto
+        nlohmann_json::nlohmann_json
 )
 
 add_executable(spartan_gold_app

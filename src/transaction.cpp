@@ -10,7 +10,7 @@ Transaction::Transaction(const std::string &from,
                          const std::string &pubKey,
                          int fee,
                          const std::vector<Output> &outputs)
-    : from_(from), nonce_(nonce), pubKey_(pubKey), fee_(fee), outputs_(outputs)
+    : from_(from), nonce_(nonce), pubKey_(pubKey), fee_(fee), outputs_(outputs), data_(std::nullopt)
 {
 }
 

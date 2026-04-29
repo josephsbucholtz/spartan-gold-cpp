@@ -16,18 +16,85 @@ bool Block::isGenesisBlock()
     return chainLength_ == 0;
 }
 
-bool Block::hasValidProof() //need serialize function
+bool Block::hasValidProof() 
 {
-    return false;
+    std::string h = utils::hash(this->serialize());
+    BigInt hashInt = hexToBigInt(h);
+    return hashInt < target_;
 }
 
-std::string Block::serialize() //need JSON library
+std::string Block::serialize() 
 {
-    return std::string();
+    return this->toJSON().dump();
 }
 
-void Block::toJSON() //need JSON library
+nlohmann::ordered_json Block::toJSON()
 {
+    using ordered_json = nlohmann::ordered_json;
+
+    ordered_json o;
+    o["chainLength"] = this->chainLength_;
+
+    o["timestamp"] = this->timestamp_;
+
+    if (this->isGenesisBlock())
+    {
+        ordered_json balances = ordered_json::array();
+
+        for (const auto& [addr, amount] : this->balances_)
+        {
+            ordered_json entry = ordered_json::array();
+            entry.push_back(addr);
+            entry.push_back(amount);
+            balances.push_back(entry);
+        }
+
+        o["balances"] = balances;
+    }
+    else
+    {
+        ordered_json txs = ordered_json::array();
+
+        for (const auto& [txid, tx] : this->transactions_)
+        {
+            ordered_json txj;
+            txj["from"] = tx.getFrom();
+            txj["sig"] = tx.getSig();
+            txj["id"] = tx.id;
+            txj["fee"] = tx.getFee();
+            txj["nonce"] = tx.getNonce();
+            txj["pubKey"] = tx.getPubKey();
+
+            ordered_json outputs = ordered_json::array();
+            for (const auto& out : tx.getOutputs())
+            {
+                ordered_json outj;
+                outj["amount"] = out.amount;
+                outj["address"] = out.address;
+                outputs.push_back(outj);
+            }
+            txj["outputs"] = outputs;
+
+            if (tx.getData().has_value())
+            {
+                txj["data"] = tx.getData().value();
+            }
+
+            ordered_json entry = ordered_json::array();
+            entry.push_back(txid);
+            entry.push_back(txj);
+            txs.push_back(entry);
+        }
+
+        o["transactions"] = txs;
+        o["prevBlockHash"] = this->prevBlockHash_;
+
+        o["proof"] = this->proof_;
+
+        o["rewardAddr"] = this->rewardAddr_;
+    }
+
+    return o;
 }
 
 std::string Block::hashVal()
@@ -55,12 +122,7 @@ bool Block::addTransaction(Transaction tx)
         return false;
     }
         
-    int nonce;
-    if (this->nextNonces_[tx.getFrom()]) {
-        nonce = this->nextNonces_[tx.getFrom()];
-    } else {
-        nonce = 0;
-    }
+    int nonce = this->nextNonces_[tx.getFrom()];
 
     if (tx.getNonce() < nonce) { return false; }
     else if (tx.getNonce() > nonce) { return false; }
@@ -102,7 +164,7 @@ bool Block::rerun(Block *prevBlock)
 
 uint64_t Block::balanceOf(std::string addr)
 {
-    return this->balances_[addr] || 0 ;
+    return this->balances_[addr];
 }
 
 uint64_t Block::totalRewards()
