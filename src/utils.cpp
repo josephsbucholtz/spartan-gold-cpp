@@ -226,18 +226,18 @@ namespace utils
         throw std::invalid_argument("unsupported hash encoding: " + encoding);
     }
 
-    RSAKeyPair generateKeyPairFromMnemonic(const std::string& mnemonic, const std::string& password)
-    {
-        (void)mnemonic;
-        (void)password;
+    // RSAKeyPair generateKeyPairFromMnemonic(const std::string& mnemonic, const std::string& password)
+    // {
+    //     (void)mnemonic;
+    //     (void)password;
 
-        throw std::runtime_error(
-            "generateKeyPairFromMnemonic cannot be implemented compatibly with "
-            "the JS Spartan-Gold project using OpenSSL alone. "
-            "The JS version depends on bip39 + node-forge seeded PRNG + node-forge RSA generation. "
-            "Use a Node helper for exact interoperability, or port that exact algorithm."
-        );
-    }
+    //     throw std::runtime_error(
+    //         "generateKeyPairFromMnemonic cannot be implemented compatibly with "
+    //         "the JS Spartan-Gold project using OpenSSL alone. "
+    //         "The JS version depends on bip39 + node-forge seeded PRNG + node-forge RSA generation. "
+    //         "Use a Node helper for exact interoperability, or port that exact algorithm."
+    //     );
+    // }
 
     RSAKeyPair generateKeyPair()
     {
