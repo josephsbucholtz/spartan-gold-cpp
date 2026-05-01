@@ -55,18 +55,23 @@ class Block
 
 public:
     // Constructors
+    Block();
     Block(std::string rewardAddr,
           Block *prevBlock,
           BigInt target = POW_TARGET,
           int coinbaseReward = COINBASE_AMT_ALLOWED);
 
+    Block(const std::map<std::string, uint64_t>& initialBalances,
+      BigInt target = POW_TARGET,
+      int coinbaseReward = COINBASE_AMT_ALLOWED);
+
     // Methods
-    bool isGenesisBlock();
+    bool isGenesisBlock() const;
     bool hasValidProof();
-    std::string serialize();
-    nlohmann::ordered_json toJSON(); // needs to return a JSON object
-    std::string hashVal();
-    std::string id();
+    std::string serialize() const;
+    nlohmann::ordered_json toJSON() const; // needs to return a JSON object
+    std::string hashVal() const;
+    std::string id() const;
     bool addTransaction(Transaction tx); // need to add client object when implemented
     bool rerun(Block *prevBlock);
     uint64_t balanceOf(std::string addr);
@@ -76,8 +81,8 @@ public:
 private:
     std::string prevBlockHash_ = "";
     BigInt target_ = 0;
-    std::map<std::string, int> balances_{};
-    std::map<std::string, int> nextNonces_{};
+    std::map<std::string, uint64_t> balances_{};
+    std::map<std::string, uint64_t> nextNonces_{};
     std::unordered_map<std::string, Transaction> transactions_{};
     int chainLength_ = 0;
     long long timestamp_ = std::chrono::duration_cast<std::chrono::milliseconds>(

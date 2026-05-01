@@ -1,17 +1,46 @@
 #include "block.h"
 #include "utils.h"
 
-Block::Block(std::string rewardAddr, 
-    Block *prevBlock, 
-    BigInt target, 
-    int coinbaseReward) : 
-    rewardAddr_(rewardAddr),
-    target_(target),
-    coinbaseReward_(coinbaseReward)
+Block::Block()
 {
 }
 
-bool Block::isGenesisBlock()
+Block::Block(std::string rewardAddr,
+             Block *prevBlock,
+             BigInt target,
+             int coinbaseReward)
+    : rewardAddr_(rewardAddr),
+      target_(target),
+      coinbaseReward_(coinbaseReward)
+{
+    if (prevBlock != nullptr)
+    {
+        prevBlockHash_ = prevBlock->id();
+        chainLength_ = prevBlock->chainLength_ + 1;
+        balances_ = prevBlock->balances_;
+        nextNonces_ = prevBlock->nextNonces_;
+    }
+}
+
+Block::Block(const std::map<std::string, uint64_t>& initialBalances,
+             BigInt target,
+             int coinbaseReward)
+    : prevBlockHash_(""),
+      target_(target),
+      balances_(initialBalances),
+      chainLength_(0),
+      proof_(0),
+      rewardAddr_(""),
+      coinbaseReward_(coinbaseReward)
+{
+    for (const auto& [addr, amount] : balances_)
+    {
+        (void)amount;
+        nextNonces_[addr] = 0;
+    }
+}
+
+bool Block::isGenesisBlock() const
 {
     return chainLength_ == 0;
 }
@@ -23,12 +52,12 @@ bool Block::hasValidProof()
     return hashInt < target_;
 }
 
-std::string Block::serialize() 
+std::string Block::serialize() const
 {
     return this->toJSON().dump();
 }
 
-nlohmann::ordered_json Block::toJSON()
+nlohmann::ordered_json Block::toJSON() const
 {
     using ordered_json = nlohmann::ordered_json;
 
@@ -97,12 +126,12 @@ nlohmann::ordered_json Block::toJSON()
     return o;
 }
 
-std::string Block::hashVal()
+std::string Block::hashVal() const
 {
     return utils::hash(this->serialize());
 }
 
-std::string Block::id()
+std::string Block::id() const
 {
     return Block::hashVal();
 }

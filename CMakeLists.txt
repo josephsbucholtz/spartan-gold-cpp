@@ -20,6 +20,10 @@ add_library(spartan_gold_lib
     src/transaction.cpp
     src/utils.cpp
     src/block.cpp
+    src/blockchain.cpp
+    src/fake-net.cpp
+    src/client.cpp
+    src/miner.cpp
 )
 
 target_include_directories(spartan_gold_lib
