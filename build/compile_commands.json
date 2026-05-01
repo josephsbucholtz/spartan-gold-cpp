@@ -1,0 +1,20 @@
+[
+{
+  "directory": "/home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/build",
+  "command": "/home/linuxbrew/.linuxbrew/bin/g++-15  -I/home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/include -g -std=gnu++20 -o CMakeFiles/spartan_gold_lib.dir/src/transaction.cpp.o -c /home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/src/transaction.cpp",
+  "file": "/home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/src/transaction.cpp",
+  "output": "CMakeFiles/spartan_gold_lib.dir/src/transaction.cpp.o"
+},
+{
+  "directory": "/home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/build",
+  "command": "/home/linuxbrew/.linuxbrew/bin/g++-15  -I/home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/include -g -std=gnu++20 -o CMakeFiles/spartan_gold_lib.dir/src/utils.cpp.o -c /home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/src/utils.cpp",
+  "file": "/home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/src/utils.cpp",
+  "output": "CMakeFiles/spartan_gold_lib.dir/src/utils.cpp.o"
+},
+{
+  "directory": "/home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/build",
+  "command": "/home/linuxbrew/.linuxbrew/bin/g++-15  -I/home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/include -g -std=gnu++20 -o CMakeFiles/spartan_gold_app.dir/src/main.cpp.o -c /home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/src/main.cpp",
+  "file": "/home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/src/main.cpp",
+  "output": "CMakeFiles/spartan_gold_app.dir/src/main.cpp.o"
+}
+]

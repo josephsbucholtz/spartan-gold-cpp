@@ -1,0 +1,4 @@
+/home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/build/CMakeFiles/spartan_gold_lib.dir
+/home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/build/CMakeFiles/spartan_gold_app.dir
+/home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/build/CMakeFiles/edit_cache.dir
+/home/jos/SCHOOL/CS168-Blockchain/spartan-gold-cpp/build/CMakeFiles/rebuild_cache.dir

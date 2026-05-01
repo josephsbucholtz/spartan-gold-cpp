@@ -1,0 +1,95 @@
+#pragma once
+
+#include <string>
+#include <map>
+#include <chrono>
+
+#include "transaction.h"
+#include <boost/multiprecision/cpp_int.hpp>
+#include <nlohmann/json.hpp>
+
+using BigInt = boost::multiprecision::cpp_int;
+
+inline BigInt hexToBigInt(const std::string &hex)
+{
+    BigInt result = 0;
+
+    std::size_t start = 0;
+    if (hex.size() >= 2 && hex[0] == '0' && (hex[1] == 'x' || hex[1] == 'X'))
+    {
+        start = 2;
+    }
+
+    for (std::size_t i = start; i < hex.size(); ++i)
+    {
+        result <<= 4;
+        char c = hex[i];
+
+        if (c >= '0' && c <= '9')
+        {
+            result += c - '0';
+        }
+        else if (c >= 'a' && c <= 'f')
+        {
+            result += 10 + (c - 'a');
+        }
+        else if (c >= 'A' && c <= 'F')
+        {
+            result += 10 + (c - 'A');
+        }
+        else
+        {
+            throw std::runtime_error("Invalid hex string");
+        }
+    }
+
+    return result;
+}
+
+class Block
+{
+    static inline const BigInt POW_TARGET =
+        hexToBigInt("0x00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+
+    static constexpr int COINBASE_AMT_ALLOWED = 25;
+
+public:
+    // Constructors
+    Block();
+    Block(std::string rewardAddr,
+          Block *prevBlock,
+          BigInt target = POW_TARGET,
+          int coinbaseReward = COINBASE_AMT_ALLOWED);
+
+    Block(const std::map<std::string, uint64_t>& initialBalances,
+      BigInt target = POW_TARGET,
+      int coinbaseReward = COINBASE_AMT_ALLOWED);
+
+    // Methods
+    bool isGenesisBlock() const;
+    bool hasValidProof();
+    std::string serialize() const;
+    nlohmann::ordered_json toJSON() const; // needs to return a JSON object
+    std::string hashVal() const;
+    std::string id() const;
+    bool addTransaction(Transaction tx); // need to add client object when implemented
+    bool rerun(Block *prevBlock);
+    uint64_t balanceOf(std::string addr);
+    uint64_t totalRewards();
+    bool contains(Transaction tx);
+
+private:
+    std::string prevBlockHash_ = "";
+    BigInt target_ = 0;
+    std::map<std::string, uint64_t> balances_{};
+    std::map<std::string, uint64_t> nextNonces_{};
+    std::unordered_map<std::string, Transaction> transactions_{};
+    int chainLength_ = 0;
+    long long timestamp_ = std::chrono::duration_cast<std::chrono::milliseconds>(
+                               std::chrono::system_clock::now().time_since_epoch())
+                               .count();
+    ;
+    uint64_t proof_ = 0;
+    std::string rewardAddr_ = "";
+    int coinbaseReward_ = 0;
+};
