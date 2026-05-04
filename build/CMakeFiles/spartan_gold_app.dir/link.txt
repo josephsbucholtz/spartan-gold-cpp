@@ -1,1 +1,0 @@
-/home/linuxbrew/.linuxbrew/bin/g++-15 -g CMakeFiles/spartan_gold_app.dir/src/main.cpp.o -o spartan_gold_app  libspartan_gold_lib.a 

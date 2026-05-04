@@ -1,2 +1,0 @@
-/usr/bin/ar qc libspartan_gold_lib.a CMakeFiles/spartan_gold_lib.dir/src/transaction.cpp.o CMakeFiles/spartan_gold_lib.dir/src/utils.cpp.o
-/usr/bin/ranlib libspartan_gold_lib.a
