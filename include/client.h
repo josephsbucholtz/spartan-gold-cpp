@@ -25,6 +25,7 @@ public:
     void setGenesisBlock(const Block& genesis);
     void generateAddress(const std::string& mnemonic);
     void showAllBalances() const;
+    Block* receiveBlock(const std::string& payload);
 
     void postTransaction(const std::vector<Output>& outputs,
                          const std::string& data = "");

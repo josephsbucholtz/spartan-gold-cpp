@@ -23,36 +23,34 @@ void Miner::startNewSearch()
 {
     std::cout << getName() << " starting new search\n";
 
-    // Minimal placeholder behavior for now.
-    // Later this should:
-    // - build a candidate block from the latest known block
-    // - add mempool transactions
-    // - set reward address
-    // - reset proof search state
+    currentBlock_ = bc_->makeBlock(latestBlock_, getAddress());
+
+    for (const Transaction& tx : mempool_) {
+        currentBlock_.addTransaction(tx);
+    }
+
+    mempool_.clear();
+    currentBlock_.setProof(0);
 }
 
-bool Miner::findProof()
-{
-    std::cout << getName() << " attempting proof search for "
-              << miningRounds_ << " rounds\n";
+bool Miner::findProof() {
+    uint64_t pausePoint = currentBlock_.getProof() + miningRounds_;
 
-    // Minimal stub:
-    // return false for now until block creation / proof mutation exists.
+    while (currentBlock_.getProof() < pausePoint) {
+        if (currentBlock_.hasValidProof()) {
+            announceProof();
+            receive(Blockchain::PROOF_FOUND, currentBlock_.serialize(), getAddress());
+            return true;
+        }
+        currentBlock_.incrementProof();
+    }
     return false;
 }
 
-void Miner::announceProof()
-{
-    std::cout << getName() << " announcing proof\n";
-
-    if (net_ == nullptr)
-    {
-        return;
+void Miner::announceProof() {
+    if (net_) {
+        net_->broadcast(Blockchain::PROOF_FOUND, currentBlock_.serialize(), getAddress());
     }
-
-    // Minimal placeholder payload.
-    // Later this should be the serialized mined block.
-    net_->broadcast(Blockchain::PROOF_FOUND, "proof_found", getAddress());
 }
 
 void Miner::receive(const std::string& msgType,
@@ -82,6 +80,7 @@ void Miner::receive(const std::string& msgType,
         // - validate the incoming block
         // - switch chain view if appropriate
         std::cout << getName() << " saw proof announcement\n";
+        receiveBlock(payload);
     }
     else if (msgType == Blockchain::MISSING_BLOCK)
     {
@@ -93,6 +92,22 @@ void Miner::receive(const std::string& msgType,
         // Fall back to base client behavior if you want shared logging/handling.
         Client::receive(msgType, payload, from);
     }
+}
+
+Block* Miner::receiveBlock(const std::string& payload)
+{
+    Block* b = Client::receiveBlock(payload);
+
+    if (b == nullptr) {
+        return nullptr;
+    }
+
+    if (b->getChainLength() >= currentBlock_.getChainLength()) {
+        std::cout << getName() << " cutting over to new chain\n";
+        startNewSearch();
+    }
+
+    return b;
 }
 
 void Miner::addTransaction(const Transaction& tx)

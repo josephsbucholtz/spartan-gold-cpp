@@ -40,6 +40,9 @@ public:
     bool sufficientFunds(Block& block);
     uint64_t totalOutput();
     
+    //setters
+    void setSig(const std::string& newSig) { sig = newSig; }
+
     //getters
     std::string getFrom() const { return from_; }
     std::string getPubKey() const { return pubKey_; }
