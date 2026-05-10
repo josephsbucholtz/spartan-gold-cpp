@@ -2,6 +2,7 @@
 
 #include "blockchain.h"
 #include "network.h"
+#include <nlohmann/json.hpp>
 
 #include <iostream>
 #include <stdexcept>
@@ -89,8 +90,8 @@ void Client::postTransaction(const std::vector<Output> &outputs,
 
     if (net_ != nullptr)
     {
-        net_->broadcast(Blockchain::POST_TRANSACTION, tx.id, address_);
-        // net_->broadcast(Blockchain::POST_TRANSACTION, tx.toJSON().dump(), address_);
+        // net_->broadcast(Blockchain::POST_TRANSACTION, tx.id, address_);
+        net_->broadcast(Blockchain::POST_TRANSACTION, tx.toJSON().dump(), address_);
     }
 }
 
@@ -110,6 +111,7 @@ void Client::receive(const std::string &msgType,
     }
     else if (msgType == Blockchain::PROOF_FOUND)
     {
+        receiveBlock(payload);
     }
     else if (msgType == Blockchain::MISSING_BLOCK)
     {
@@ -121,7 +123,7 @@ void Client::receive(const std::string &msgType,
 
 Block *Client::receiveBlock(const std::string &payload)
 {
-    Block block = bc_->deserializeBlock(payload);
+    Block block = bc_->deserializeBlock(nlohmann::ordered_json::parse(payload));
     const std::string blockId = block.hashVal();
 
     if (blocks_.count(blockId))

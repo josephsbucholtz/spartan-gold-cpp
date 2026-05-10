@@ -5,8 +5,8 @@
 
 #include <iostream>
 
-Miner::Miner(const std::string& name,
-             Blockchain* bc,
+Miner::Miner(const std::string &name,
+             Blockchain *bc,
              int miningRounds)
     : Client(name, bc),
       miningRounds_(miningRounds)
@@ -25,7 +25,8 @@ void Miner::startNewSearch()
 
     currentBlock_ = bc_->makeBlock(latestBlock_, getAddress());
 
-    for (const Transaction& tx : mempool_) {
+    for (const Transaction &tx : mempool_)
+    {
         currentBlock_.addTransaction(tx);
     }
 
@@ -33,13 +34,17 @@ void Miner::startNewSearch()
     currentBlock_.setProof(0);
 }
 
-bool Miner::findProof() {
+bool Miner::findProof()
+{
     uint64_t pausePoint = currentBlock_.getProof() + miningRounds_;
 
-    while (currentBlock_.getProof() < pausePoint) {
-        if (currentBlock_.hasValidProof()) {
+    while (currentBlock_.getProof() < pausePoint)
+    {
+        if (currentBlock_.hasValidProof())
+        {
             announceProof();
-            receive(Blockchain::PROOF_FOUND, currentBlock_.serialize(), getAddress());
+            receiveBlock(currentBlock_.serialize());
+            startNewSearch();
             return true;
         }
         currentBlock_.incrementProof();
@@ -47,15 +52,17 @@ bool Miner::findProof() {
     return false;
 }
 
-void Miner::announceProof() {
-    if (net_) {
+void Miner::announceProof()
+{
+    if (net_)
+    {
         net_->broadcast(Blockchain::PROOF_FOUND, currentBlock_.serialize(), getAddress());
     }
 }
 
-void Miner::receive(const std::string& msgType,
-                    const std::string& payload,
-                    const std::string& from)
+void Miner::receive(const std::string &msgType,
+                    const std::string &payload,
+                    const std::string &from)
 {
     std::cout << "[" << getName() << " / miner] received "
               << msgType << " from " << from
@@ -68,7 +75,22 @@ void Miner::receive(const std::string& msgType,
         // - deserialize the tx
         // - validate it
         // - add it to mempool_
-        std::cout << getName() << " queued transaction payload\n";
+        try
+        {
+            auto json = nlohmann::ordered_json::parse(payload);
+            Transaction tx = Transaction::fromJSON(json);
+
+            if (!currentBlock_.contains(tx))
+            {
+                mempool_.push_back(tx);
+                std::cout << getName() << " queued transaction " << tx.id << "\n";
+            }
+        }
+        catch (const std::exception &e)
+        {
+            std::cout << getName() << " failed to parse transaction: "
+                      << e.what() << "\n";
+        }
     }
     else if (msgType == Blockchain::START_MINING)
     {
@@ -94,15 +116,17 @@ void Miner::receive(const std::string& msgType,
     }
 }
 
-Block* Miner::receiveBlock(const std::string& payload)
+Block *Miner::receiveBlock(const std::string &payload)
 {
-    Block* b = Client::receiveBlock(payload);
+    Block *b = Client::receiveBlock(payload);
 
-    if (b == nullptr) {
+    if (b == nullptr)
+    {
         return nullptr;
     }
 
-    if (b->getChainLength() >= currentBlock_.getChainLength()) {
+    if (b->getChainLength() >= currentBlock_.getChainLength())
+    {
         std::cout << getName() << " cutting over to new chain\n";
         startNewSearch();
     }
@@ -110,7 +134,7 @@ Block* Miner::receiveBlock(const std::string& payload)
     return b;
 }
 
-void Miner::addTransaction(const Transaction& tx)
+void Miner::addTransaction(const Transaction &tx)
 {
     mempool_.push_back(tx);
 }

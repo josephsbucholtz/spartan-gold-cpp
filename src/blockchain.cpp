@@ -13,7 +13,7 @@ Blockchain::Blockchain()
       coinbaseReward_(25),
       defaultTxFee_(1),
       confirmedDepth_(6),
-      powTarget_(0)
+      powTarget_(hexToBigInt("0x00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"))
 {
 }
 Blockchain::Blockchain(const std::vector<std::shared_ptr<Client>> &clients, Network *net)
@@ -22,7 +22,7 @@ Blockchain::Blockchain(const std::vector<std::shared_ptr<Client>> &clients, Netw
       coinbaseReward_(25),
       defaultTxFee_(1),
       confirmedDepth_(6),
-      powTarget_(0)
+      powTarget_(hexToBigInt("0x00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"))
 {
     powTarget_ = hexToBigInt("0x00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
 
