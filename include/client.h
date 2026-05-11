@@ -4,6 +4,8 @@
 #include <vector>
 #include <memory>
 #include <map>
+#include <unordered_map>
+#include <unordered_set>
 
 #include "transaction.h"
 #include "block.h"
@@ -61,4 +63,7 @@ protected:
 
     // Pending transactions
     std::vector<Transaction> pendingTxs_;
+    std::unordered_map<std::string, std::string> orphanPayloads_;
+    std::unordered_multimap<std::string, std::string> orphansByPrev_;
+    std::unordered_set<std::string> requestedBlocks_;
 };
