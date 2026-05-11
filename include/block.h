@@ -49,7 +49,7 @@ inline BigInt hexToBigInt(const std::string &hex)
 class Block
 {
     static inline const BigInt POW_TARGET =
-        hexToBigInt("0x00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+        hexToBigInt("0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
 
     static constexpr int COINBASE_AMT_ALLOWED = 25;
 
