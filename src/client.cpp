@@ -105,8 +105,9 @@ void Client::receive(const std::string &msgType,
         << " payload=" << payload
         << "\n";
 
-    if (msgType == Blockchain::POST_TRANSACTION) // NEEDS WORK
+    if (msgType == Blockchain::POST_TRANSACTION)
     {
+        // Regular clients can ignore mempool transactions for now.
     }
     else if (msgType == Blockchain::PROOF_FOUND)
     {
@@ -114,6 +115,31 @@ void Client::receive(const std::string &msgType,
     }
     else if (msgType == Blockchain::MISSING_BLOCK)
     {
+        const std::string requestedHash = payload;
+
+        auto it = blocks_.find(requestedHash);
+        if (it == blocks_.end())
+        {
+            std::cout << getName()
+                      << ": requested missing block not known "
+                      << requestedHash << "\n";
+            return;
+        }
+
+        if (net_ != nullptr)
+        {
+            std::cout << getName()
+                      << " sending missing block "
+                      << requestedHash
+                      << " to " << from << "\n";
+
+            net_->sendMessage(
+                from,
+                Blockchain::PROOF_FOUND,
+                it->second.serialize(),
+                getAddress()
+            );
+        }
     }
     else if (msgType == Blockchain::START_MINING)
     {
@@ -123,6 +149,13 @@ void Client::receive(const std::string &msgType,
 Block *Client::receiveBlock(const std::string &payload)
 {
     Block block = bc_->deserializeBlock(nlohmann::ordered_json::parse(payload));
+    const std::string blockId = block.id();
+
+    if (blocks_.count(blockId))
+    {
+        std::cout << getName() << ": duplicate block\n";
+        return nullptr;
+    }
 
     if (!block.hasValidProof() && !block.isGenesisBlock())
     {
@@ -132,12 +165,28 @@ Block *Client::receiveBlock(const std::string &payload)
 
     if (!block.isGenesisBlock())
     {
-        std::string prevHash = block.getPrevBlockHash();
+        const std::string prevHash = block.getPrevBlockHash();
 
         if (!blocks_.count(prevHash))
         {
-            std::cout << getName() << ": missing previous block "
+            std::cout << getName()
+                      << ": missing previous block "
                       << prevHash << "\n";
+
+            orphanPayloads_[blockId] = payload;
+            orphansByPrev_.emplace(prevHash, blockId);
+
+            if (net_ != nullptr && !requestedBlocks_.count(prevHash))
+            {
+                requestedBlocks_.insert(prevHash);
+
+                net_->broadcast(
+                    Blockchain::MISSING_BLOCK,
+                    prevHash,
+                    getAddress()
+                );
+            }
+
             return nullptr;
         }
 
@@ -150,22 +199,17 @@ Block *Client::receiveBlock(const std::string &payload)
         }
     }
 
-    const std::string blockId = block.id();
-
-    if (blocks_.count(blockId))
-    {
-        std::cout << getName() << ": duplicate block\n";
-        return nullptr;
-    }
-
     blocks_[blockId] = block;
     Block *storedBlock = &blocks_.at(blockId);
+
+    bool becameLatest = false;
 
     if (!hasLatestBlock_ ||
         storedBlock->getChainLength() > latestBlock_.getChainLength())
     {
         latestBlock_ = *storedBlock;
         hasLatestBlock_ = true;
+        becameLatest = true;
 
         std::cout << getName()
                   << " accepted new latest block length "
@@ -180,6 +224,27 @@ Block *Client::receiveBlock(const std::string &payload)
                   << " but kept latest length "
                   << latestBlock_.getChainLength()
                   << "\n";
+    }
+
+    requestedBlocks_.erase(blockId);
+
+    std::vector<std::string> childPayloads;
+
+    auto range = orphansByPrev_.equal_range(blockId);
+    for (auto it = range.first; it != range.second; ++it)
+    {
+        auto orphanIt = orphanPayloads_.find(it->second);
+        if (orphanIt != orphanPayloads_.end())
+        {
+            childPayloads.push_back(orphanIt->second);
+            orphanPayloads_.erase(orphanIt);
+        }
+    }
+    orphansByPrev_.erase(blockId);
+
+    for (const std::string &childPayload : childPayloads)
+    {
+        receiveBlock(childPayload);
     }
 
     return storedBlock;

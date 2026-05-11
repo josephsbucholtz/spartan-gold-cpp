@@ -51,7 +51,7 @@ void driver()
     std::cout << "Alice is transferring 40 gold to " << bob->getAddress() << "\n";
     alice->postTransaction({{40, bob->getAddress()}});
 
-    bc.start(50);
+    bc.start(1);
 
     std::cout << "\n------------ Starting a late-to-the-party miner --------------\n";
     auto donald = std::make_shared<Miner>("Donald", &bc, 3000);
@@ -59,7 +59,8 @@ void driver()
     donald->setGenesisBlock(bc.getGenesis());
     donald->init();
 
-    bc.start(100);
+    bob->postTransaction({{20, charlie->getAddress()}});
+    bc.start(2);
 
     std::cout << "\n------------ Final Balances: Alice perspective --------------\n";
     alice->showAllBalances();

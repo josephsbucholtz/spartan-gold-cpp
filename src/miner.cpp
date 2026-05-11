@@ -62,8 +62,6 @@ bool Miner::findProof()
             std::cout << getName()
                       << " found block length "
                       << currentBlock_.getChainLength()
-                      << " txs="
-                      << currentBlock_.transactionCount()
                       << "\n";
 
             announceProof();
@@ -99,8 +97,6 @@ void Miner::receive(const std::string &msgType,
 
     if (msgType == Blockchain::POST_TRANSACTION)
     {
-        // For now, just acknowledge receipt.
-        // Later:
         // - deserialize the tx
         // - validate it
         // - add it to mempool_
@@ -138,6 +134,7 @@ void Miner::receive(const std::string &msgType,
     {
         // Later:
         // - return requested block if known
+        Client::receive(msgType, payload, from);
     }
     else
     {
