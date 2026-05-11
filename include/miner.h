@@ -32,6 +32,9 @@ public:
     // Announce a found block
     void announceProof();
 
+    
+    Block* receiveBlock(const std::string& payload);
+
     // Override network receive
     void receive(const std::string& msgType,
                  const std::string& payload,

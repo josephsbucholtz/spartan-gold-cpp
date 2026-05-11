@@ -57,6 +57,85 @@ std::string Block::serialize() const
     return this->toJSON().dump();
 }
 
+Block Block::fromJSON(nlohmann::ordered_json json)
+{
+    Block block;
+
+    block.chainLength_ = json.value("chainLength", 0);
+    block.timestamp_ = json.value("timestamp", 0LL);
+
+    if (block.chainLength_ == 0)
+    {
+        block.prevBlockHash_ = "";
+        block.proof_ = 0;
+        block.rewardAddr_ = "";
+
+        if (json.contains("balances")) {
+            for (const auto& entry : json["balances"]) {
+                std::string addr = entry[0].get<std::string>();
+                uint64_t amount = entry[1].get<uint64_t>();
+
+                block.balances_[addr] = amount;
+                block.nextNonces_[addr] = 0;
+            }
+        }
+
+        return block;
+    }
+
+    block.prevBlockHash_ = json.value("prevBlockHash", "");
+    block.proof_ = json.value("proof", 0ULL);
+    block.rewardAddr_ = json.value("rewardAddr", "");
+
+    if (json.contains("transactions"))
+    {
+        for (const auto& entry : json["transactions"])
+        {
+            std::string txid = entry[0].get<std::string>();
+            const auto& txj = entry[1];
+
+            std::vector<Output> outputs;
+
+            if (txj.contains("outputs")) {
+                for (const auto& outj : txj["outputs"]) {
+                    Output out;
+                    out.amount = outj["amount"].get<uint64_t>();
+                    out.address = outj["address"].get<std::string>();
+                    outputs.push_back(out);
+                }
+            }
+
+            Transaction tx(
+                txj.value("from", ""),
+                txj.value("nonce", 0),
+                txj.value("pubKey", ""),
+                txj.value("fee", 0),
+                outputs
+            );
+
+            if (txj.contains("data")) {
+                tx = Transaction(
+                    txj.value("from", ""),
+                    txj.value("nonce", 0),
+                    txj.value("pubKey", ""),
+                    txj.value("fee", 0),
+                    outputs,
+                    txj["data"].get<std::string>()
+                );
+            }
+
+            tx.id = txj.value("id", txid);
+
+            // These require setters or public access.
+            tx.setSig(txj.value("sig", ""));
+
+            block.transactions_.emplace(txid, tx);
+        }
+    }
+
+    return block;
+}
+
 nlohmann::ordered_json Block::toJSON() const
 {
     using ordered_json = nlohmann::ordered_json;
@@ -140,14 +219,20 @@ bool Block::addTransaction(Transaction tx)
 {
     if(transactions_.find(tx.id) != transactions_.end())
     {
+        std::cout << "addTransaction failed: duplicate\n";
         return false;
     }
-    if (tx.getSig() == "" || !tx.validSignature())
+    if (tx.getSig() == "")
     {
+        std::cout << "Transaction missing sig\n";
         return false;
     }
     if (!tx.sufficientFunds(*this)) 
     {
+        std::cout << "addTransaction failed: insufficient funds. balance="
+              << balanceOf(tx.getFrom())
+              << " total=" << tx.totalOutput()
+              << "\n";
         return false;
     }
         
@@ -191,9 +276,15 @@ bool Block::rerun(Block *prevBlock)
     return true;
 }
 
-uint64_t Block::balanceOf(std::string addr)
+uint64_t Block::balanceOf(std::string addr) const
 {
-    return this->balances_[addr];
+    auto it = balances_.find(addr);
+
+    if (it == balances_.end()) {
+        return 0;
+    }
+
+    return it->second;
 }
 
 uint64_t Block::totalRewards()
@@ -210,4 +301,39 @@ uint64_t Block::totalRewards()
 bool Block::contains(Transaction tx)
 {
     return this->transactions_.find(tx.id) != this->transactions_.end(); 
+}
+
+void Block::setProof(uint64_t newProof)
+{
+    proof_ = newProof;
+}
+
+void Block::incrementProof()
+{
+    proof_++;
+}
+
+uint64_t Block::getProof() const
+{
+    return proof_;
+}
+
+int Block::getChainLength() const
+{
+    return chainLength_;
+}
+
+std::string Block::getPrevBlockHash() const
+{
+    return prevBlockHash_;
+}
+
+void Block::setTarget(BigInt target)
+{
+    target_ = target;
+}
+
+void Block::setCoinReward(int coin)
+{
+    coinbaseReward_ = coin;
 }

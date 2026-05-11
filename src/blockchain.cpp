@@ -2,6 +2,7 @@
 
 #include "client.h"
 #include "miner.h"
+#include "network.h"
 
 #include <iostream>
 #include <stdexcept>
@@ -12,7 +13,7 @@ Blockchain::Blockchain()
       coinbaseReward_(25),
       defaultTxFee_(1),
       confirmedDepth_(6),
-      powTarget_(0)
+      powTarget_(hexToBigInt("0x00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"))
 {
 }
 Blockchain::Blockchain(const std::vector<std::shared_ptr<Client>> &clients, Network *net)
@@ -21,7 +22,7 @@ Blockchain::Blockchain(const std::vector<std::shared_ptr<Client>> &clients, Netw
       coinbaseReward_(25),
       defaultTxFee_(1),
       confirmedDepth_(6),
-      powTarget_(0)
+      powTarget_(hexToBigInt("0x00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"))
 {
     powTarget_ = hexToBigInt("0x00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
 
@@ -58,10 +59,12 @@ Block Blockchain::makeGenesis() const
     return Block(initialBalances_, powTarget_, static_cast<int>(coinbaseReward_));
 }
 
-Block Blockchain::deserializeBlock(const nlohmann::ordered_json &j) const
+Block Blockchain::deserializeBlock(const nlohmann::ordered_json &json) const
 {
-    (void)j;
-    throw std::runtime_error("Blockchain::deserializeBlock() not implemented yet");
+    Block block = Block::fromJSON(json);
+    block.setTarget(powTarget_);
+    block.setCoinReward(static_cast<int>(coinbaseReward_));
+    return block;
 }
 
 Block Blockchain::makeBlock(const Block &prevBlock, const std::string &rewardAddr) const
@@ -86,6 +89,7 @@ void Blockchain::registerClient(const std::shared_ptr<Client> &client)
         return;
     }
 
+    if (net_) net_->registerClient(client);
     clients_.push_back(client);
     clientNameMap_[client->getName()] = client;
 
@@ -101,6 +105,8 @@ void Blockchain::registerMiner(const std::shared_ptr<Miner> &miner)
     {
         return;
     }
+
+    if (net_) net_->registerClient(miner);
 
     miners_.push_back(miner);
 
@@ -138,13 +144,13 @@ void Blockchain::setInitialBalance(const std::string& address, uint64_t amount)
     initialBalances_[address] = amount;
 }
 
-void Blockchain::start()
+void Blockchain::start(int maxRounds)
 {
-    for (const auto& miner : miners_)
-    {
-        if (miner)
-        {
-            miner->init();
+    for (int round = 0; round < maxRounds; ++round) {
+        for (auto& miner : miners_) {
+            if (miner) {
+                miner->findProof();
+            }
         }
     }
 }

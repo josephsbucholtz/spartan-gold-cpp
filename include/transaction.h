@@ -1,9 +1,12 @@
 #pragma once
 
+#include <nlohmann/json.hpp>
+
 #include <string>
 #include <vector>
 #include <cstdint>
 #include <optional>
+
 
 class Block;
 
@@ -39,7 +42,12 @@ public:
     bool validSignature();
     bool sufficientFunds(Block& block);
     uint64_t totalOutput();
+    nlohmann::ordered_json toJSON() const;
+    static Transaction fromJSON(const nlohmann::ordered_json& json);
     
+    //setters
+    void setSig(const std::string& newSig) { sig = newSig; }
+
     //getters
     std::string getFrom() const { return from_; }
     std::string getPubKey() const { return pubKey_; }

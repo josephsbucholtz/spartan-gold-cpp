@@ -69,14 +69,24 @@ public:
     bool isGenesisBlock() const;
     bool hasValidProof();
     std::string serialize() const;
+    static Block fromJSON(nlohmann::ordered_json json);
     nlohmann::ordered_json toJSON() const; // needs to return a JSON object
     std::string hashVal() const;
     std::string id() const;
     bool addTransaction(Transaction tx); // need to add client object when implemented
     bool rerun(Block *prevBlock);
-    uint64_t balanceOf(std::string addr);
+    uint64_t balanceOf(std::string addr) const;
     uint64_t totalRewards();
     bool contains(Transaction tx);
+    
+    //getters / setters
+    void setProof(uint64_t);
+    void incrementProof();
+    uint64_t getProof() const;
+    int getChainLength() const;
+    std::string getPrevBlockHash() const;
+    void setTarget(BigInt target);
+    void setCoinReward(int coin);
 
 private:
     std::string prevBlockHash_ = "";
@@ -88,7 +98,6 @@ private:
     long long timestamp_ = std::chrono::duration_cast<std::chrono::milliseconds>(
                                std::chrono::system_clock::now().time_since_epoch())
                                .count();
-    ;
     uint64_t proof_ = 0;
     std::string rewardAddr_ = "";
     int coinbaseReward_ = 0;

@@ -48,7 +48,7 @@ public:
     Blockchain(const std::vector<std::shared_ptr<Client>> &clients, const std::string &mnemonic, Network *net);
 
     Block makeGenesis() const;
-    Block deserializeBlock(const nlohmann::ordered_json &j) const;
+    Block deserializeBlock(const nlohmann::ordered_json& json) const;
     Block makeBlock(const Block &prevBlock, const std::string &rewardAddr) const;
     Transaction makeTransaction(const std::string &from,
                                 int nonce,
@@ -60,7 +60,7 @@ public:
     void registerMiner(const std::shared_ptr<Miner> &miner);
     void showBalances(const std::string &label = "") const;
     void setInitialBalance(const std::string& address, uint64_t amount);
-    void start();
+    void start(int maxRounds);
 
     // getters and setters
     std::shared_ptr<Client> getClientByAddress(const std::string &address) const;

@@ -5,8 +5,8 @@
 
 #include <iostream>
 
-Miner::Miner(const std::string& name,
-             Blockchain* bc,
+Miner::Miner(const std::string &name,
+             Blockchain *bc,
              int miningRounds)
     : Client(name, bc),
       miningRounds_(miningRounds)
@@ -21,43 +21,77 @@ void Miner::init()
 
 void Miner::startNewSearch()
 {
-    std::cout << getName() << " starting new search\n";
+    // std::cout << getName() << " starting new search\n";
+    std::cout << getName()
+              << " starting new search on length "
+              << latestBlock_.getChainLength()
+              << " mempool=" << mempool_.size()
+              << "\n";
 
-    // Minimal placeholder behavior for now.
-    // Later this should:
-    // - build a candidate block from the latest known block
-    // - add mempool transactions
-    // - set reward address
-    // - reset proof search state
+    currentBlock_ = bc_->makeBlock(latestBlock_, getAddress());
+
+    std::vector<Transaction> stillPending;
+
+    for (const Transaction &tx : mempool_)
+    {
+        bool added = currentBlock_.addTransaction(tx);
+
+        std::cout << getName()
+                  << " add tx " << tx.id
+                  << " added=" << added
+                  << "\n";
+
+        if (!added)
+        {
+            stillPending.push_back(tx);
+        }
+    }
+
+    mempool_ = stillPending;
+    currentBlock_.setProof(0);
 }
 
 bool Miner::findProof()
 {
-    std::cout << getName() << " attempting proof search for "
-              << miningRounds_ << " rounds\n";
+    uint64_t pausePoint = currentBlock_.getProof() + miningRounds_;
 
-    // Minimal stub:
-    // return false for now until block creation / proof mutation exists.
+    while (currentBlock_.getProof() < pausePoint)
+    {
+        if (currentBlock_.hasValidProof())
+        {
+            std::cout << getName()
+                      << " found block length "
+                      << currentBlock_.getChainLength()
+                      << " txs="
+                      << currentBlock_.transactionCount()
+                      << "\n";
+
+            announceProof();
+
+            Block *accepted = Client::receiveBlock(currentBlock_.serialize());
+            if (accepted != nullptr)
+            {
+                startNewSearch();
+            }
+
+            return true;
+        }
+        currentBlock_.incrementProof();
+    }
     return false;
 }
 
 void Miner::announceProof()
 {
-    std::cout << getName() << " announcing proof\n";
-
-    if (net_ == nullptr)
+    if (net_)
     {
-        return;
+        net_->broadcast(Blockchain::PROOF_FOUND, currentBlock_.serialize(), getAddress());
     }
-
-    // Minimal placeholder payload.
-    // Later this should be the serialized mined block.
-    net_->broadcast(Blockchain::PROOF_FOUND, "proof_found", getAddress());
 }
 
-void Miner::receive(const std::string& msgType,
-                    const std::string& payload,
-                    const std::string& from)
+void Miner::receive(const std::string &msgType,
+                    const std::string &payload,
+                    const std::string &from)
 {
     std::cout << "[" << getName() << " / miner] received "
               << msgType << " from " << from
@@ -70,7 +104,23 @@ void Miner::receive(const std::string& msgType,
         // - deserialize the tx
         // - validate it
         // - add it to mempool_
-        std::cout << getName() << " queued transaction payload\n";
+        try
+        {
+            auto json = nlohmann::ordered_json::parse(payload);
+            Transaction tx = Transaction::fromJSON(json);
+
+            mempool_.push_back(tx);
+
+            std::cout << getName()
+                      << " queued transaction " << tx.id
+                      << " mempool=" << mempool_.size()
+                      << "\n";
+        }
+        catch (const std::exception &e)
+        {
+            std::cout << getName() << " failed to parse transaction: "
+                      << e.what() << "\n";
+        }
     }
     else if (msgType == Blockchain::START_MINING)
     {
@@ -82,6 +132,7 @@ void Miner::receive(const std::string& msgType,
         // - validate the incoming block
         // - switch chain view if appropriate
         std::cout << getName() << " saw proof announcement\n";
+        receiveBlock(payload);
     }
     else if (msgType == Blockchain::MISSING_BLOCK)
     {
@@ -95,7 +146,28 @@ void Miner::receive(const std::string& msgType,
     }
 }
 
-void Miner::addTransaction(const Transaction& tx)
+Block *Miner::receiveBlock(const std::string &payload)
+{
+    int oldLength = latestBlock_.getChainLength();
+
+    Block *b = Client::receiveBlock(payload);
+
+    if (b == nullptr)
+    {
+        return nullptr;
+    }
+
+    if (latestBlock_.getChainLength() > oldLength &&
+        latestBlock_.getChainLength() >= currentBlock_.getChainLength())
+    {
+        std::cout << getName() << " cutting over to new chain\n";
+        startNewSearch();
+    }
+
+    return b;
+}
+
+void Miner::addTransaction(const Transaction &tx)
 {
     mempool_.push_back(tx);
 }
