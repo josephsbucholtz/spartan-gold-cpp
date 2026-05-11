@@ -90,7 +90,6 @@ void Client::postTransaction(const std::vector<Output> &outputs,
 
     if (net_ != nullptr)
     {
-        // net_->broadcast(Blockchain::POST_TRANSACTION, tx.id, address_);
         net_->broadcast(Blockchain::POST_TRANSACTION, tx.toJSON().dump(), address_);
     }
 }
@@ -124,20 +123,12 @@ void Client::receive(const std::string &msgType,
 Block *Client::receiveBlock(const std::string &payload)
 {
     Block block = bc_->deserializeBlock(nlohmann::ordered_json::parse(payload));
-    const std::string blockId = block.hashVal();
-
-    if (blocks_.count(blockId))
-    {
-        return nullptr;
-    }
 
     if (!block.hasValidProof() && !block.isGenesisBlock())
     {
         std::cout << getName() << ": block has invalid proof\n";
         return nullptr;
     }
-
-    Block *prevBlock = nullptr;
 
     if (!block.isGenesisBlock())
     {
@@ -150,13 +141,21 @@ Block *Client::receiveBlock(const std::string &payload)
             return nullptr;
         }
 
-        prevBlock = &blocks_.at(prevHash);
+        Block *prevBlock = &blocks_.at(prevHash);
 
         if (!block.rerun(prevBlock))
         {
             std::cout << getName() << ": block rerun failed\n";
             return nullptr;
         }
+    }
+
+    const std::string blockId = block.id();
+
+    if (blocks_.count(blockId))
+    {
+        std::cout << getName() << ": duplicate block\n";
+        return nullptr;
     }
 
     blocks_[blockId] = block;
@@ -167,6 +166,20 @@ Block *Client::receiveBlock(const std::string &payload)
     {
         latestBlock_ = *storedBlock;
         hasLatestBlock_ = true;
+
+        std::cout << getName()
+                  << " accepted new latest block length "
+                  << latestBlock_.getChainLength()
+                  << "\n";
+    }
+    else
+    {
+        std::cout << getName()
+                  << " stored side block length "
+                  << storedBlock->getChainLength()
+                  << " but kept latest length "
+                  << latestBlock_.getChainLength()
+                  << "\n";
     }
 
     return storedBlock;

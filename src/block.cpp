@@ -219,14 +219,20 @@ bool Block::addTransaction(Transaction tx)
 {
     if(transactions_.find(tx.id) != transactions_.end())
     {
+        std::cout << "addTransaction failed: duplicate\n";
         return false;
     }
-    if (tx.getSig() == "" || !tx.validSignature())
+    if (tx.getSig() == "")
     {
+        std::cout << "Transaction missing sig\n";
         return false;
     }
     if (!tx.sufficientFunds(*this)) 
     {
+        std::cout << "addTransaction failed: insufficient funds. balance="
+              << balanceOf(tx.getFrom())
+              << " total=" << tx.totalOutput()
+              << "\n";
         return false;
     }
         
@@ -320,4 +326,14 @@ int Block::getChainLength() const
 std::string Block::getPrevBlockHash() const
 {
     return prevBlockHash_;
+}
+
+void Block::setTarget(BigInt target)
+{
+    target_ = target;
+}
+
+void Block::setCoinReward(int coin)
+{
+    coinbaseReward_ = coin;
 }

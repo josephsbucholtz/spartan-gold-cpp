@@ -61,8 +61,9 @@ Block Blockchain::makeGenesis() const
 
 Block Blockchain::deserializeBlock(const nlohmann::ordered_json &json) const
 {
-    Block block;
-    block.fromJSON(json);
+    Block block = Block::fromJSON(json);
+    block.setTarget(powTarget_);
+    block.setCoinReward(static_cast<int>(coinbaseReward_));
     return block;
 }
 
@@ -145,17 +146,11 @@ void Blockchain::setInitialBalance(const std::string& address, uint64_t amount)
 
 void Blockchain::start(int maxRounds)
 {
-    for (const auto& miner : miners_)
-    {
-        if (miner)
-        {
-            miner->init();
-        }
-    }
-
     for (int round = 0; round < maxRounds; ++round) {
         for (auto& miner : miners_) {
-            miner->findProof();
+            if (miner) {
+                miner->findProof();
+            }
         }
     }
 }

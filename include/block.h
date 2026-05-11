@@ -69,7 +69,7 @@ public:
     bool isGenesisBlock() const;
     bool hasValidProof();
     std::string serialize() const;
-    Block fromJSON(nlohmann::ordered_json json);
+    static Block fromJSON(nlohmann::ordered_json json);
     nlohmann::ordered_json toJSON() const; // needs to return a JSON object
     std::string hashVal() const;
     std::string id() const;
@@ -78,11 +78,15 @@ public:
     uint64_t balanceOf(std::string addr) const;
     uint64_t totalRewards();
     bool contains(Transaction tx);
+    
+    //getters / setters
     void setProof(uint64_t);
     void incrementProof();
     uint64_t getProof() const;
     int getChainLength() const;
     std::string getPrevBlockHash() const;
+    void setTarget(BigInt target);
+    void setCoinReward(int coin);
 
 private:
     std::string prevBlockHash_ = "";

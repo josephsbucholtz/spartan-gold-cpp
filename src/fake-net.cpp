@@ -3,7 +3,7 @@
 
 void FakeNet::registerClient(const std::shared_ptr<Client> &client)
 {
-    clients_.insert({client->getAddress(), client});
+    clients_[client->getAddress()] = client;
 }
 
 void FakeNet::broadcast(const std::string &msgType,

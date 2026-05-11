@@ -42,6 +42,9 @@ void driver()
         client->setGenesisBlock(genesis);
     }
 
+    minnie->init();
+    mickey->init();
+
     std::cout << "------------ INITIAL BALANCES --------------\n";
     alice->showAllBalances();
 
@@ -54,6 +57,7 @@ void driver()
     auto donald = std::make_shared<Miner>("Donald", &bc, 3000);
     bc.registerMiner(donald);
     donald->setGenesisBlock(bc.getGenesis());
+    donald->init();
 
     bc.start(100);
 

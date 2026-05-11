@@ -33,14 +33,14 @@ void Transaction::getId()
 
 void Transaction::sign(std::string privKey)
 {
-    sig = utils::sign(privKey, "");
+    sig = utils::sign(privKey, id);
 }
 
 bool Transaction::validSignature()
 {
     return sig.empty() == false &&
            utils::addressMatchesKey(from_, pubKey_) &&
-           utils::verifySignature(pubKey_, "", sig);
+           utils::verifySignature(pubKey_, id, sig);
 }
 
 bool Transaction::sufficientFunds(Block &block)

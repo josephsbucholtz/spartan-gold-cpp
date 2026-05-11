@@ -21,16 +21,33 @@ void Miner::init()
 
 void Miner::startNewSearch()
 {
-    std::cout << getName() << " starting new search\n";
+    // std::cout << getName() << " starting new search\n";
+    std::cout << getName()
+              << " starting new search on length "
+              << latestBlock_.getChainLength()
+              << " mempool=" << mempool_.size()
+              << "\n";
 
     currentBlock_ = bc_->makeBlock(latestBlock_, getAddress());
 
+    std::vector<Transaction> stillPending;
+
     for (const Transaction &tx : mempool_)
     {
-        currentBlock_.addTransaction(tx);
+        bool added = currentBlock_.addTransaction(tx);
+
+        std::cout << getName()
+                  << " add tx " << tx.id
+                  << " added=" << added
+                  << "\n";
+
+        if (!added)
+        {
+            stillPending.push_back(tx);
+        }
     }
 
-    mempool_.clear();
+    mempool_ = stillPending;
     currentBlock_.setProof(0);
 }
 
@@ -42,9 +59,21 @@ bool Miner::findProof()
     {
         if (currentBlock_.hasValidProof())
         {
+            std::cout << getName()
+                      << " found block length "
+                      << currentBlock_.getChainLength()
+                      << " txs="
+                      << currentBlock_.transactionCount()
+                      << "\n";
+
             announceProof();
-            receiveBlock(currentBlock_.serialize());
-            startNewSearch();
+
+            Block *accepted = Client::receiveBlock(currentBlock_.serialize());
+            if (accepted != nullptr)
+            {
+                startNewSearch();
+            }
+
             return true;
         }
         currentBlock_.incrementProof();
@@ -80,11 +109,12 @@ void Miner::receive(const std::string &msgType,
             auto json = nlohmann::ordered_json::parse(payload);
             Transaction tx = Transaction::fromJSON(json);
 
-            if (!currentBlock_.contains(tx))
-            {
-                mempool_.push_back(tx);
-                std::cout << getName() << " queued transaction " << tx.id << "\n";
-            }
+            mempool_.push_back(tx);
+
+            std::cout << getName()
+                      << " queued transaction " << tx.id
+                      << " mempool=" << mempool_.size()
+                      << "\n";
         }
         catch (const std::exception &e)
         {
@@ -118,6 +148,8 @@ void Miner::receive(const std::string &msgType,
 
 Block *Miner::receiveBlock(const std::string &payload)
 {
+    int oldLength = latestBlock_.getChainLength();
+
     Block *b = Client::receiveBlock(payload);
 
     if (b == nullptr)
@@ -125,7 +157,8 @@ Block *Miner::receiveBlock(const std::string &payload)
         return nullptr;
     }
 
-    if (b->getChainLength() >= currentBlock_.getChainLength())
+    if (latestBlock_.getChainLength() > oldLength &&
+        latestBlock_.getChainLength() >= currentBlock_.getChainLength())
     {
         std::cout << getName() << " cutting over to new chain\n";
         startNewSearch();
