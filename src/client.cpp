@@ -48,7 +48,7 @@ void Client::showAllBalances() const
 
     const auto &clients = bc_->getClients();
 
-    std::cout << "Balances from " << name_ << "'s perspective:\n";
+    std::cout << name_ << ": Showing balances:\n";
 
     const Block &viewBlock = hasLatestBlock_ ? latestBlock_ : genesis_;
 
@@ -57,11 +57,9 @@ void Client::showAllBalances() const
         if (!client)
             continue;
 
-        std::cout
-            << "  " << client->getName()
-            << " (" << client->getAddress() << ")"
-            << ": " << viewBlock.balanceOf(client->getAddress())
-            << "\n";
+        std::cout << "    " << client->getAddress()
+          << " (" << client->getName() << "): "
+          << viewBlock.balanceOf(client->getAddress()) << "\n";
     }
 }
 
@@ -98,16 +96,10 @@ void Client::receive(const std::string &msgType,
                      const std::string &payload,
                      const std::string &from)
 {
-    std::cout
-        << "[" << name_ << "] received "
-        << msgType
-        << " from " << from
-        << " payload=" << payload
-        << "\n";
 
     if (msgType == Blockchain::POST_TRANSACTION)
     {
-        // Regular clients can ignore mempool transactions for now.
+        // Regular clients can ignore mempool
     }
     else if (msgType == Blockchain::PROOF_FOUND)
     {
@@ -211,19 +203,6 @@ Block *Client::receiveBlock(const std::string &payload)
         hasLatestBlock_ = true;
         becameLatest = true;
 
-        std::cout << getName()
-                  << " accepted new latest block length "
-                  << latestBlock_.getChainLength()
-                  << "\n";
-    }
-    else
-    {
-        std::cout << getName()
-                  << " stored side block length "
-                  << storedBlock->getChainLength()
-                  << " but kept latest length "
-                  << latestBlock_.getChainLength()
-                  << "\n";
     }
 
     requestedBlocks_.erase(blockId);

@@ -21,12 +21,7 @@ void Miner::init()
 
 void Miner::startNewSearch()
 {
-    // std::cout << getName() << " starting new search\n";
-    std::cout << getName()
-              << " starting new search on length "
-              << latestBlock_.getChainLength()
-              << " mempool=" << mempool_.size()
-              << "\n";
+    std::cout << getName() << " starting new search\n";
 
     currentBlock_ = bc_->makeBlock(latestBlock_, getAddress());
 
@@ -35,11 +30,6 @@ void Miner::startNewSearch()
     for (const Transaction &tx : mempool_)
     {
         bool added = currentBlock_.addTransaction(tx);
-
-        std::cout << getName()
-                  << " add tx " << tx.id
-                  << " added=" << added
-                  << "\n";
 
         if (!added)
         {
@@ -91,9 +81,6 @@ void Miner::receive(const std::string &msgType,
                     const std::string &payload,
                     const std::string &from)
 {
-    std::cout << "[" << getName() << " / miner] received "
-              << msgType << " from " << from
-              << " payload=" << payload << "\n";
 
     if (msgType == Blockchain::POST_TRANSACTION)
     {
@@ -106,11 +93,6 @@ void Miner::receive(const std::string &msgType,
             Transaction tx = Transaction::fromJSON(json);
 
             mempool_.push_back(tx);
-
-            std::cout << getName()
-                      << " queued transaction " << tx.id
-                      << " mempool=" << mempool_.size()
-                      << "\n";
         }
         catch (const std::exception &e)
         {
@@ -124,21 +106,14 @@ void Miner::receive(const std::string &msgType,
     }
     else if (msgType == Blockchain::PROOF_FOUND)
     {
-        // Later:
-        // - validate the incoming block
-        // - switch chain view if appropriate
-        std::cout << getName() << " saw proof announcement\n";
         receiveBlock(payload);
     }
     else if (msgType == Blockchain::MISSING_BLOCK)
     {
-        // Later:
-        // - return requested block if known
         Client::receive(msgType, payload, from);
     }
     else
     {
-        // Fall back to base client behavior if you want shared logging/handling.
         Client::receive(msgType, payload, from);
     }
 }
