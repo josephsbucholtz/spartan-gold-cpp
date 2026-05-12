@@ -1,4 +1,6 @@
+#include <chrono>
 #include <iostream>
+#include <memory>
 #include <thread>
 
 #include "transaction.h"
@@ -8,6 +10,23 @@
 #include "client.h"
 #include "miner.h"
 #include "fake-net.h"
+
+// Simulate mining for a certain duration like JS
+void bcStart(Blockchain& bc, std::chrono::milliseconds duration)
+{
+    auto end = std::chrono::steady_clock::now() + duration;
+
+    while (std::chrono::steady_clock::now() < end)
+    {
+        for (const auto& miner : bc.getMiners())
+        {
+            if (miner)
+            {
+                miner->findProof();
+            }
+        }
+    }
+}
 
 void driver()
 {
@@ -38,7 +57,8 @@ void driver()
     Block genesis = bc.makeGenesis();
     bc.setGenesis(genesis);
 
-    for (const auto& client : bc.getClients()) {
+    for (const auto& client : bc.getClients())
+    {
         client->setGenesisBlock(genesis);
     }
 
@@ -51,7 +71,7 @@ void driver()
     std::cout << "Alice is transferring 40 gold to " << bob->getAddress() << "\n";
     alice->postTransaction({{40, bob->getAddress()}});
 
-    bc.start(1);
+    bcStart(bc, std::chrono::milliseconds(2000));
 
     std::cout << "\n------------ Starting a late-to-the-party miner --------------\n";
     auto donald = std::make_shared<Miner>("Donald", &bc, 3000);
@@ -59,8 +79,7 @@ void driver()
     donald->setGenesisBlock(bc.getGenesis());
     donald->init();
 
-    bob->postTransaction({{20, charlie->getAddress()}});
-    bc.start(2);
+    bcStart(bc, std::chrono::milliseconds(6000));
 
     std::cout << "\n------------ Final Balances: Alice perspective --------------\n";
     alice->showAllBalances();
@@ -68,7 +87,15 @@ void driver()
 
 int main()
 {
+    //start clock
+    auto start = std::chrono::high_resolution_clock::now();
+
     driver();
+
+    //stop clock and print duration
+    auto stop = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::seconds>(stop - start);
+    std::cout << "Time: " << duration.count() << " seconds" << std::endl;
 
     return 0;
 }
