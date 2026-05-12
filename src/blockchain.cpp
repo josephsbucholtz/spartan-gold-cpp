@@ -13,7 +13,7 @@ Blockchain::Blockchain()
       coinbaseReward_(25),
       defaultTxFee_(1),
       confirmedDepth_(6),
-      powTarget_(hexToBigInt("0x00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"))
+      powTarget_(hexToBigInt("0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"))
 {
 }
 Blockchain::Blockchain(const std::vector<std::shared_ptr<Client>> &clients, Network *net)
@@ -22,9 +22,9 @@ Blockchain::Blockchain(const std::vector<std::shared_ptr<Client>> &clients, Netw
       coinbaseReward_(25),
       defaultTxFee_(1),
       confirmedDepth_(6),
-      powTarget_(hexToBigInt("0x00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"))
+      powTarget_(hexToBigInt("0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"))
 {
-    powTarget_ = hexToBigInt("0x00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+    powTarget_ = hexToBigInt("0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
 
     for (const auto &client : clients_)
     {
@@ -38,8 +38,6 @@ Blockchain::Blockchain(const std::vector<std::shared_ptr<Client>> &clients, Netw
             clientAddressMap_[client->getAddress()] = client;
         }
 
-        // For now you can assign placeholder starting balances here,
-        // or later load them from config.
         initialBalances_[client->getAddress()] = 100;
     }
 
@@ -97,6 +95,9 @@ void Blockchain::registerClient(const std::shared_ptr<Client> &client)
     {
         clientAddressMap_[client->getAddress()] = client;
     }
+
+    std::cout << "Adding client " << client->getName() << "\n";
+    std::cout << client->getName() << "'s address is: " << client->getAddress() << "\n";
 }
 
 void Blockchain::registerMiner(const std::shared_ptr<Miner> &miner)
@@ -110,7 +111,6 @@ void Blockchain::registerMiner(const std::shared_ptr<Miner> &miner)
 
     miners_.push_back(miner);
 
-    // Since Miner is-a Client, also register in the client collections.
     clients_.push_back(miner);
     clientNameMap_[miner->getName()] = miner;
 
@@ -155,6 +155,8 @@ void Blockchain::start(int maxRounds)
     }
 }
 
+
+// --------------- GETTERS AND SETTERS ---------------
 std::shared_ptr<Client> Blockchain::getClientByAddress(const std::string &address) const
 {
     auto it = clientAddressMap_.find(address);

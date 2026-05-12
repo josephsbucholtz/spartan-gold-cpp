@@ -126,7 +126,6 @@ Block Block::fromJSON(nlohmann::ordered_json json)
 
             tx.id = txj.value("id", txid);
 
-            // These require setters or public access.
             tx.setSig(txj.value("sig", ""));
 
             block.transactions_.emplace(txid, tx);
